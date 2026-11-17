@@ -1,0 +1,8 @@
+{
+  "name": "Hyrule Slate — CS Resume & Portfolio",
+  "description": "A Breath of the Wild menu-inspired computer science student resume and portfolio website featuring a categorized skills matrix, selectable professional summary variations, and interactive project showcase.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
