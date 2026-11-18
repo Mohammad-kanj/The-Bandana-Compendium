@@ -23,7 +23,7 @@ export function TopNavBar({
   onPrint,
 }: TopNavBarProps) {
   return (
-    <header className="w-full border-b border-[#4CE4FF]/20 bg-[#08111A]/85 backdrop-blur-md print:hidden">
+    <header className="relative z-10 w-full border-b border-[#4CE4FF]/20 bg-[#08111A]/85 backdrop-blur-md print:hidden">
       <div className="max-w-[1360px] mx-auto px-6 py-3.5 flex items-center justify-between gap-8">
         {/* Zone 1: Single-line Brand Wordmark */}
         <button

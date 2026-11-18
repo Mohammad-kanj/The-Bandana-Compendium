@@ -3,7 +3,6 @@ export type MenuSectionId = 'adventure' | 'skills' | 'portfolio';
 export type SkillCategory =
   | 'Programming Languages'
   | 'Tools'
-  | 'Methodologies'
   | 'Soft Skills';
 
 export type ProficiencyLevel = 1 | 2 | 3 | 4;
@@ -47,7 +46,7 @@ export interface ProjectItem {
 
 export interface ExperienceItem {
   id: string;
-  type: 'Experience' | 'Education' | 'Milestone';
+  type: 'Experience' | 'Education' | 'Milestone' | 'Certificates' | 'Media' | 'Design';
   role: string;
   organization: string;
   location: string;
@@ -80,6 +79,7 @@ export interface ProfileData {
   email: string;
   githubUrl: string;
   linkedinUrl: string;
+  presentationPostUrl?: string;
   youtubeUrl: string;
   coursework: string[];
   spokenLanguages: string[];

@@ -7,7 +7,6 @@ interface PrintResumeSheetProps {
 const SKILL_CATEGORIES: SkillCategory[] = [
   'Programming Languages',
   'Tools',
-  'Methodologies',
   'Soft Skills',
 ];
 

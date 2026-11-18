@@ -6,11 +6,12 @@ interface ScrollRevealProps {
   className?: string;
   variant?: 'card' | 'header' | 'line';
   delay?: number;
+  onVisibilityChange?: (visible: boolean) => void;
 }
 
 /**
  * Bidirectional scroll-reveal wrapper using an untransformed IntersectionObserver
- * target with hysteresis (enters at >= 8% or 48px visible, resets only when completely
+ * target with hysteresis (enters at >= 7% or 40px visible, resets only when completely
  * off-screen). Prevents boundary flicker / infinite animation loops when ~10% is visible.
  */
 export function ScrollReveal({
@@ -18,9 +19,19 @@ export function ScrollReveal({
   className = '',
   variant = 'card',
   delay = 0,
+  onVisibilityChange,
 }: ScrollRevealProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const callbackRef = useRef(onVisibilityChange);
   const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    callbackRef.current = onVisibilityChange;
+  }, [onVisibilityChange]);
+
+  useEffect(() => {
+    callbackRef.current?.(isVisible);
+  }, [isVisible]);
 
   useEffect(() => {
     const el = containerRef.current;

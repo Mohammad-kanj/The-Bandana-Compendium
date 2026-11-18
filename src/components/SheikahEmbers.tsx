@@ -158,7 +158,7 @@ export function SheikahEmbers({ intensity = 'vista' }: SheikahEmbersProps) {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-10 print:hidden"
+      className="pointer-events-none absolute inset-0 z-[2] print:hidden"
     />
   );
 }

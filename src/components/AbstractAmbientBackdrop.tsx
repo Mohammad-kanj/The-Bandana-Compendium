@@ -14,7 +14,7 @@ export function AbstractAmbientBackdrop({
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-[#102733]"
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden bg-[#102733]"
     >
       {/* Full-Page Linear Gradient: Warm Sunlight Dominates Top 60%, Gradual Transition to Cooler Sheikah Tones in Bottom 40% */}
       <div

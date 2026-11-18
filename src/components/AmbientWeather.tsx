@@ -251,7 +251,7 @@ export function AmbientWeather({ intensity = 'vista' }: AmbientWeatherProps) {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-20 print:hidden"
+      className="pointer-events-none absolute inset-0 z-[3] print:hidden"
     />
   );
 }

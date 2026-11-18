@@ -1,5 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect } from 'react';
+import { ASSETS } from '../data/defaultResume';
+import { CHAMPION_STYLES } from './KorokNode';
 
 interface IntroOverlayProps {
   visible: boolean;
@@ -64,34 +66,23 @@ export function IntroOverlay({
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="relative flex flex-col items-center text-center px-6"
           >
-            {/* Subtle Golden BotW Crest */}
-            <motion.svg
-              viewBox="0 0 48 48"
-              className="w-11 h-11 text-[#F3E3B4] mb-4 drop-shadow-[0_0_16px_rgba(243,227,180,0.65)]"
-              fill="none"
+            {/* User's Swan Crest Tinted in Warm #F3E3B4 Hyrule Gold */}
+            <motion.div
               initial={{ scale: 0.78, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-4 drop-shadow-[0_0_16px_rgba(243,227,180,0.68)]"
             >
-              <path
-                d="M24 6L33.5 22.5H14.5L24 6Z"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinejoin="round"
+              <img
+                src={ASSETS.korokMask}
+                alt=""
+                aria-hidden="true"
+                draggable={false}
+                referrerPolicy="no-referrer"
+                style={{ filter: CHAMPION_STYLES.hero.filter }}
+                className="w-16 h-16 object-contain pointer-events-none"
               />
-              <path
-                d="M14.5 22.5L24 39H5L14.5 22.5Z"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M33.5 22.5L43 39H24L33.5 22.5Z"
-                stroke="currentColor"
-                strokeWidth="1.4"
-                strokeLinejoin="round"
-              />
-            </motion.svg>
+            </motion.div>
 
             <h1 className="font-display italic font-semibold text-4xl sm:text-5xl text-[#FAF6EC] tracking-wide drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
               {displayName}

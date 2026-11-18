@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
+import { useSound } from '../context/SoundContext';
 import { PROFICIENCY_SCALE } from '../data/defaultResume';
 import { ProficiencyLevel, SkillCategory, SkillItem } from '../types/resume';
-import { BotWSlotFrame, ProficiencyDiamonds } from './BotWSlotFrame';
+import { BotWSlotFrame, SheikahProficiencyGauge } from './BotWSlotFrame';
 import { SkillIcon } from './SkillIcon';
 
 interface SkillTreeTabProps {
@@ -13,14 +14,12 @@ const BRANCH_CATEGORIES: ('All Branches' | SkillCategory)[] = [
   'All Branches',
   'Programming Languages',
   'Tools',
-  'Methodologies',
   'Soft Skills',
 ];
 
 const BRANCH_ORDER: SkillCategory[] = [
   'Programming Languages',
   'Tools',
-  'Methodologies',
   'Soft Skills',
 ];
 
@@ -31,6 +30,7 @@ const TIER_LABELS: Record<1 | 2 | 3, string> = {
 };
 
 export function SkillTreeTab({ skills }: SkillTreeTabProps) {
+  const { playButton } = useSound();
   const [branchFilter, setBranchFilter] = useState<'All Branches' | SkillCategory>(
     'All Branches'
   );
@@ -57,6 +57,7 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
     filteredSkills.find((s) => s.id === selectedSkillId) || filteredSkills[0];
 
   const handleSelectBranch = (nextBranch: 'All Branches' | SkillCategory) => {
+    playButton();
     const prevIdx = BRANCH_CATEGORIES.indexOf(branchFilter);
     const nextIdx = BRANCH_CATEGORIES.indexOf(nextBranch);
     setFilterDirection(nextIdx >= prevIdx ? 1 : -1);
@@ -169,7 +170,10 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
                               <BotWSlotFrame
                                 key={skill.id}
                                 selected={isSelected}
-                                onClick={() => setSelectedSkillId(skill.id)}
+                                onClick={() => {
+                                  playButton();
+                                  setSelectedSkillId(skill.id);
+                                }}
                                 ariaLabel={`${skill.name} — ${PROFICIENCY_SCALE[skill.proficiency].label}`}
                                 className="p-3 flex items-center justify-between gap-2.5"
                               >
@@ -187,8 +191,8 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
                                     <div className="text-xs font-semibold text-[#FAF6EC] truncate">
                                       {skill.name}
                                     </div>
-                                    <div className="mt-1">
-                                      <ProficiencyDiamonds
+                                    <div className="mt-1.5">
+                                      <SheikahProficiencyGauge
                                         level={skill.proficiency}
                                         showNumeric={false}
                                       />
@@ -229,8 +233,11 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
                   <h2 className="font-display italic text-3xl font-semibold text-[#F3E3B4] leading-none">
                     {selectedSkill.name}
                   </h2>
-                  <div className="mt-2 flex items-center gap-2.5">
-                    <ProficiencyDiamonds level={selectedSkill.proficiency} size="md" />
+                  <div className="mt-2.5 flex flex-wrap items-center gap-3">
+                    <SheikahProficiencyGauge
+                      level={selectedSkill.proficiency}
+                      size="md"
+                    />
                     <span className="text-xs font-semibold text-[#FAF6EC]">
                       {proficiencyMeta.label}
                     </span>
@@ -250,7 +257,7 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
 
                 <div className="p-3.5 bg-[#08121B]/75 border border-[#4CE4FF]/20 rounded-sm">
                   <div className="text-xs font-semibold text-[#9AF0FF]">
-                    Tier Definition · {proficiencyMeta.label} ({proficiencyMeta.level}/4)
+                    Proficiency Tier · {proficiencyMeta.label}
                   </div>
                   <p className="text-xs text-[#FAF6EC]/72 mt-1 leading-relaxed">
                     {proficiencyMeta.description}
@@ -267,15 +274,15 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
           {/* Proficiency Scale Legend */}
           <div className="mt-6 pt-4 border-t border-[#FAF6EC]/12">
             <div className="text-xs font-semibold text-[#FAF6EC]/80 mb-2.5">
-              4-Tier Proficiency Rating Scale
+              Sheikah Proficiency Gauge Scale
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 text-xs">
               {([4, 3, 2, 1] as ProficiencyLevel[]).map((lvl) => (
                 <div key={lvl} className="flex items-center justify-between gap-2">
                   <span className="text-[#FAF6EC]/75">
                     {PROFICIENCY_SCALE[lvl].label}
                   </span>
-                  <ProficiencyDiamonds level={lvl} showNumeric={false} />
+                  <SheikahProficiencyGauge level={lvl} showNumeric={false} />
                 </div>
               ))}
             </div>

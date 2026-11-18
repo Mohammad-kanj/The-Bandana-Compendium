@@ -1,6 +1,7 @@
 import { Code2, ExternalLink, FolderGit2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useMemo, useState } from 'react';
+import { useSound } from '../context/SoundContext';
 import { ProjectCategory, ProjectItem } from '../types/resume';
 
 interface PortfolioTabProps {
@@ -22,6 +23,7 @@ const CARD_SURFACE_TONES = [
 ];
 
 export function PortfolioTab({ projects }: PortfolioTabProps) {
+  const { playButton } = useSound();
   const [categoryFilter, setCategoryFilter] = useState<'All' | ProjectCategory>('All');
   const [filterDirection, setFilterDirection] = useState<number>(1);
   const [selectedId, setSelectedId] = useState<string>(projects[0]?.id ?? '');
@@ -46,6 +48,7 @@ export function PortfolioTab({ projects }: PortfolioTabProps) {
   };
 
   const handleSelectCategory = (nextCat: 'All' | ProjectCategory) => {
+    playButton();
     const prevIdx = PROJECT_CATEGORIES.indexOf(categoryFilter);
     const nextIdx = PROJECT_CATEGORIES.indexOf(nextCat);
     setFilterDirection(nextIdx >= prevIdx ? 1 : -1);
@@ -87,9 +90,9 @@ export function PortfolioTab({ projects }: PortfolioTabProps) {
         <div className="lg:col-span-6 space-y-4">
           <div className="bg-[#0A1826]/72 backdrop-blur-md border border-[#4CE4FF]/20 rounded-3xl px-5 py-3.5 flex items-baseline justify-between gap-4 shadow-[0_8px_24px_rgba(0,0,0,0.28)]">
             <h2 className="font-display italic text-2xl font-semibold text-[#F3E3B4]">
-              Portfolio Equipment
+              Portfolio Inventory
             </h2>
-            <span className="text-xs text-[#4CE4FF]">Select a build to inspect</span>
+            <span className="text-xs text-[#4CE4FF]">Select item to inspect</span>
           </div>
 
           <AnimatePresence mode="wait" custom={filterDirection}>
@@ -111,10 +114,13 @@ export function PortfolioTab({ projects }: PortfolioTabProps) {
                   <button
                     key={project.id}
                     type="button"
-                    onClick={() => setSelectedId(project.id)}
+                    onClick={() => {
+                      playButton();
+                      setSelectedId(project.id);
+                    }}
                     aria-label={`Inspect ${project.title}`}
                     aria-pressed={isSelected}
-                    className={`group text-left rounded-3xl p-4 backdrop-blur-md border transition-all flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF] shadow-[0_12px_30px_rgba(0,0,0,0.34)] ${
+                    className={`group relative text-left rounded-3xl p-4 backdrop-blur-md border transition-all flex flex-col justify-between cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF] shadow-[0_12px_30px_rgba(0,0,0,0.34)] ${
                       isSelected
                         ? 'bg-[#152B3F]/88 border-[#F3E3B4]/80 ring-2 ring-[#4CE4FF]/25 -translate-y-0.5'
                         : `${surfaceTone} border-[#FAF6EC]/14 hover:border-[#E5C97B]/50`
@@ -137,6 +143,40 @@ export function PortfolioTab({ projects }: PortfolioTabProps) {
                           </span>
                         </div>
                       )}
+
+                      {/* Subtle BotW Sheikah Tech Stack Tooltip on Hover / Focus */}
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-x-2 bottom-2 z-20 opacity-0 translate-y-1.5 group-hover:opacity-100 group-hover:translate-y-0 group-focus-visible:opacity-100 group-focus-visible:translate-y-0 transition-all duration-200 ease-out"
+                      >
+                        <div className="relative rounded-sm bg-[#060F17]/92 backdrop-blur-md border border-[#E5C97B]/55 px-2.5 py-2 shadow-[0_10px_24px_rgba(0,0,0,0.75),0_0_12px_rgba(76,228,255,0.16)]">
+                          <span className="absolute -top-[2px] -left-[2px] w-1.5 h-1.5 border-t border-l border-[#F3E3B4]" />
+                          <span className="absolute -top-[2px] -right-[2px] w-1.5 h-1.5 border-t border-r border-[#F3E3B4]" />
+                          <span className="absolute -bottom-[2px] -left-[2px] w-1.5 h-1.5 border-b border-l border-[#F3E3B4]" />
+                          <span className="absolute -bottom-[2px] -right-[2px] w-1.5 h-1.5 border-b border-r border-[#F3E3B4]" />
+
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.06em] uppercase text-[#9AF0FF]">
+                              <span className="w-1.5 h-1.5 rotate-45 bg-[#4CE4FF] shadow-[0_0_6px_rgba(76,228,255,0.85)]" />
+                              <span>Tech Stack</span>
+                            </span>
+                            <span className="text-[10px] italic font-display text-[#F3E3B4]/85">
+                              {project.subtitle}
+                            </span>
+                          </div>
+
+                          <div className="flex flex-wrap items-center gap-1">
+                            {project.technologies.map((tech) => (
+                              <span
+                                key={tech}
+                                className="px-1.5 py-0.5 rounded-sm text-[10px] font-medium bg-[#0D1E2E]/95 text-[#FAF6EC]/90 border border-[#4CE4FF]/30"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="mt-3.5">
@@ -235,6 +275,7 @@ export function PortfolioTab({ projects }: PortfolioTabProps) {
                     href={selectedProject.liveUrl}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => playButton()}
                     className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-[#0B0E12] bg-[#E5C97B] hover:bg-[#F3E3B4] rounded-2xl transition-colors whitespace-nowrap shrink-0"
                   >
                     <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -244,6 +285,7 @@ export function PortfolioTab({ projects }: PortfolioTabProps) {
                     href={selectedProject.repoUrl}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => playButton()}
                     className="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-medium text-[#FAF6EC] border border-[#FAF6EC]/25 hover:border-[#E5C97B]/65 bg-[#0C1824]/85 rounded-2xl transition-colors whitespace-nowrap shrink-0"
                   >
                     <FolderGit2 className="w-3.5 h-3.5 text-[#E5C97B]" aria-hidden="true" />

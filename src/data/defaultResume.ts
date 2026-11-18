@@ -5,6 +5,7 @@ export const ASSETS = {
   avatar: '/assets/aistudio/Tomfoolery_pfp_but_smaller_dccd5c44.jpeg',
   aicCertificatePdf:
     '/assets/aistudio/Artificial_Intelligence_Micro-Certification__AIC__Product_School_bbd1e071.pdf',
+  volleyballCertificatePdf: '/assets/aistudio/Volleyball_Certificate_48549b45.pdf',
   systemsPreview: '/src/assets/images/project_systems_preview_1794928801592.jpg',
   compilerPreview: '/src/assets/images/project_compiler_preview_1794928802290.jpg',
   webappPreview: '/src/assets/images/project_webapp_preview_1794928803662.jpg',
@@ -56,7 +57,8 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
     email: 'mohammad.abu.al.kanj@gmail.com',
     githubUrl: 'https://github.com/Mohammad-kanj',
     linkedinUrl: 'https://www.linkedin.com/in/mohammad-kanj-445626278',
-    youtubeUrl: 'https://github.com/Mohammad-kanj',
+    presentationPostUrl: 'https://lnkd.in/p/dV86hJNF',
+    youtubeUrl: 'https://www.youtube.com/@bandana-boi143/videos',
     coursework: [
       'CS50x (Harvard University)',
       'Algorithms & Data Structures',
@@ -228,57 +230,11 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       tier: 3,
       yearsOrContext: 'Formerly Photoshop',
       evidence:
-        'Visual editing, thumbnails, and presentation assets after moving from Adobe Photoshop to Photocraft.',
+        'YouTube thumbnail design and custom graphic assets using Adobe Photoshop and its alternative Photocraft.',
       iconKey: 'compass',
     },
 
-    // Methodologies (Skill Tree Branch 3)
-    {
-      id: 'algo-ds',
-      name: 'Algorithms & Data Structures',
-      category: 'Methodologies',
-      proficiency: 4,
-      tier: 1,
-      yearsOrContext: 'CS50x & AIU',
-      evidence:
-        'Strong grounding in algorithmic problem solving, memory safety, and complexity analysis.',
-      iconKey: 'check',
-    },
-    {
-      id: 'rag-ai',
-      name: 'RAG & AI Architectures',
-      category: 'Methodologies',
-      proficiency: 3,
-      tier: 2,
-      yearsOrContext: 'AI Engineering',
-      evidence:
-        'Focused study and technical writing on Retrieval-Augmented Generation and practical AI architectures.',
-      iconKey: 'network',
-    },
-    {
-      id: 'lora-edge',
-      name: 'LoRa & Edge Computing',
-      category: 'Methodologies',
-      proficiency: 2,
-      tier: 2,
-      yearsOrContext: 'Systems Research',
-      evidence:
-        'Published clear engineering breakdowns on low-power networking and edge computing concepts.',
-      iconKey: 'globe',
-    },
-    {
-      id: 'rev-eng',
-      name: 'Reverse Engineering',
-      category: 'Methodologies',
-      proficiency: 2,
-      tier: 3,
-      yearsOrContext: 'Binary & Systems',
-      evidence:
-        'Explored reverse engineering principles and communicated core concepts through technical posts.',
-      iconKey: 'shield',
-    },
-
-    // Soft Skills (Skill Tree Branch 4)
+    // Soft Skills (Skill Tree Branch 3)
     {
       id: 'problem-solving',
       name: 'Analytical Problem Solving',
@@ -298,7 +254,7 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       tier: 2,
       yearsOrContext: 'LinkedIn & Docs',
       evidence:
-        'Weekly LinkedIn writer distilling RAG, LoRa, and software engineering topics for engineers and students.',
+        'Weekly LinkedIn writer distilling programming, IT, software engineering, and AI concepts for engineers and students.',
       iconKey: 'book',
     },
     {
@@ -363,14 +319,14 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
     },
     {
       id: 'hyrule-resume',
-      title: 'Hyrule Slate — Interactive Portfolio',
-      subtitle: 'Breath of the Wild Menu Website',
+      title: 'Personal Portfolio Website (This Site)',
+      subtitle: 'Breath of the Wild Interactive Resume',
       category: 'Full-Stack Web',
       year: '2026',
       description:
-        'Personal resume and portfolio website modeled after the Breath of the Wild main title screen, Sheikah Slate showcase, Skill Tree, and Hero’s Path timeline.',
+        'Personal resume and portfolio website modeled after the Breath of the Wild main menu, featuring an expanding Sheikah Slate workspace, Skill Tree, collectible Borok medallions, and Hero’s Path timeline.',
       highlights: [
-        'Built with React, TypeScript, Tailwind CSS, and Motion transitions with a printable single-page ATS resume.',
+        'Built with React, TypeScript, Tailwind CSS, and Motion with responsive single-container transitions and an ATS print resume.',
       ],
       technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Motion'],
       liveUrl: 'https://github.com/Mohammad-kanj',
@@ -379,20 +335,54 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       isPlaceholder: false,
     },
     {
-      id: 'ai-placeholder',
-      title: '[Project Placeholder] — Upcoming AI / Tech Build',
-      subtitle: 'Reserved Capstone / Repo Slot',
-      category: 'AI & Systems',
-      year: '2026–2027',
+      id: 'family-feud-control-board',
+      title: 'Family Feud Control Board',
+      subtitle: 'Live Game Show Host Console',
+      category: 'Full-Stack Web',
+      year: '2026',
       description:
-        'Placeholder slot reserved for an upcoming Artificial Intelligence Engineering project (such as a RAG workflow, Edge/LoRa prototype, or final-year capstone).',
+        'Interactive host control board and live presentation display for running Family Feud rounds with instant answer reveals, strike indicators, face-off buzzers, and team score tracking.',
       highlights: [
-        'Ready to swap in project title, summary, stack, and live repository links directly in source code.',
+        'Designed for smooth dual-screen host control and synchronized audience scoreboard updates during live games.',
       ],
-      technologies: ['Python', 'RAG', 'AI Engineering', 'SQL'],
+      technologies: ['React', 'TypeScript', 'WebSockets', 'Tailwind CSS'],
+      liveUrl: 'https://github.com/Mohammad-kanj',
+      repoUrl: 'https://github.com/Mohammad-kanj',
+      image: ASSETS.webappPreview,
+      isPlaceholder: true,
+    },
+    {
+      id: 'internet-speed-tester-banet',
+      title: 'Internet Speed Tester (Banet)',
+      subtitle: 'Network Diagnostics & Bandwidth Tool',
+      category: 'AI & Systems',
+      year: '2026',
+      description:
+        'Clean network diagnostics and bandwidth testing application measuring download/upload throughput, ping latency, and connection stability in real time.',
+      highlights: [
+        'Engineered for fast throughput sampling, latency jitter reporting, and clear visual speed diagnostics.',
+      ],
+      technologies: ['Python', 'Networking', 'Latency & Throughput', 'Web UI'],
       liveUrl: 'https://github.com/Mohammad-kanj',
       repoUrl: 'https://github.com/Mohammad-kanj',
       image: ASSETS.systemsPreview,
+      isPlaceholder: true,
+    },
+    {
+      id: 'krillion-leaderboard',
+      title: 'Krillion Leaderboard',
+      subtitle: 'Competitive Standings & Score Tracker',
+      category: 'Full-Stack Web',
+      year: '2026',
+      description:
+        'Real-time leaderboard platform built to rank players, track seasonal points, highlight top performers, and keep competitive standings organized.',
+      highlights: [
+        'Features responsive ranking tables, automated score updates, and quick search/filtering across player tiers.',
+      ],
+      technologies: ['React', 'TypeScript', 'FastAPI', 'SQL'],
+      liveUrl: 'https://github.com/Mohammad-kanj',
+      repoUrl: 'https://github.com/Mohammad-kanj',
+      image: ASSETS.compilerPreview,
       isPlaceholder: true,
     },
   ],
@@ -405,11 +395,11 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       location: 'Remote',
       timeframe: 'Present',
       summary:
-        'Publish weekly technical posts breaking down emerging AI and systems topics for engineers and students.',
+        'Publish weekly technical articles breaking down core IT, programming, software engineering, and AI concepts to strengthen my own mastery and help those who come after.',
       bullets: [
-        'Covers RAG (Retrieval-Augmented Generation), LoRa, Edge Computing, and Reverse Engineering.',
+        'Share approachable breakdowns covering general IT fundamentals, programming & software engineering practices, and AI concepts (including RAG, LoRa, Edge Computing, and Reverse Engineering).',
       ],
-      skillsUsed: ['RAG & AI Architectures', 'LoRa & Edge Computing', 'Technical Writing'],
+      skillsUsed: ['Programming & IT', 'Software Engineering', 'AI Concepts', 'Technical Writing'],
     },
     {
       id: 'aiu-degree',
@@ -419,53 +409,58 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       location: 'Ghabagheb, Damascus, Syria',
       timeframe: 'Expected Sep 2027',
       summary:
-        'Final-year AI Engineering student; 1st Place University Volleyball Champion representing Faculty of Informatics Engineering (May 2026).',
+        'Undergraduate degree building core foundations across artificial intelligence, algorithms, and software engineering.',
       bullets: [
-        'Coursework in AI systems, algorithms, software engineering, and databases.',
+        'Undergraduate AI Engineering student studying AI systems, algorithms, software engineering, and databases.',
+        '1st Place University Volleyball Champion representing Faculty of Informatics Engineering (May 2026).',
       ],
       skillsUsed: ['Python', 'Algorithms & Data Structures', 'Cross-Functional Teamwork'],
     },
     {
       id: 'media-youtube',
-      type: 'Experience',
-      role: 'YouTube Content Creator & Presentation Designer',
-      organization: 'Chess & Upcoming Tech Channel · Freelance',
+      type: 'Media',
+      role: 'YouTube Content Creator',
+      organization: 'Bandana-Boi · Chess & Upcoming Tech Channel',
       location: 'Damascus, Syria',
       timeframe: 'Ongoing',
       summary:
-        'Managed scripting, recording, and editing for a weekly chess strategy channel using Filmcraft & Photocraft; designed an academic Master’s presentation in Dentistry.',
+        'Script, record, edit, and design custom thumbnails for my YouTube channel "Bandana-Boi", while preparing an upcoming programming & technology channel.',
       bullets: [
-        'Transitioned media workflow from Premiere Pro & Photoshop to Filmcraft & Photocraft; preparing a new programming & technology channel.',
+        'Design and edit my own YouTube thumbnails and channel graphics using Adobe Photoshop and its alternative Photocraft.',
+        'Transitioned video editing workflow from Adobe Premiere Pro to Filmcraft alongside upcoming tech content production.',
       ],
-      skillsUsed: ['Filmcraft', 'Photocraft', 'Public Speaking & Media'],
+      skillsUsed: ['Photoshop & Photocraft', 'Thumbnail Design', 'Filmcraft'],
+    },
+    {
+      id: 'presentation-designer',
+      type: 'Design',
+      role: 'Presentation Designer',
+      organization: 'Microsoft PowerPoint · Freelance',
+      location: 'Damascus, Syria',
+      timeframe: 'Freelance',
+      summary:
+        'Built dynamic PowerPoint presentations showcasing integrated 3D models, smooth transitions, and clean visual storytelling.',
+      bullets: [
+        'Published a LinkedIn post introducing my PowerPoint skills, highlighting 3D model integration and seamless slide-to-slide transitions.',
+        'Focused on structured slide pacing and engaging motion design to present complex ideas clearly.',
+      ],
+      skillsUsed: ['Microsoft PowerPoint', '3D Models & Transitions', 'Visual Storytelling'],
     },
     {
       id: 'certifications',
-      type: 'Milestone',
+      type: 'Certificates',
       role: 'CS50x & Technical Certifications',
       organization: 'Harvard University · Product School · Simplilearn',
       location: 'Verified Online',
       timeframe: '2025 — 2026',
       summary:
-        'Harvard CS50x (C, Python, SQL, memory management, 10 problem sets & final project), Product School Artificial Intelligence Micro-Certification (Jan 2026), and GitHub Basics (Oct 2026).',
+        'Verified credentials spanning foundational computer science, artificial intelligence, and version control workflows.',
       bullets: [
-        'Verified CS50x Certificate: cs50.harvard.edu/certificates/46a4433a-b4f1-4fce-9f1e-e548d8de319c',
+        'Harvard CS50x: Introduction to Computer Science (2025) — C, Python, SQL, memory management, 10 problem sets & final project.',
+        'Product School Artificial Intelligence Micro-Certification (AIC)™ (Jan 2026).',
+        'Simplilearn GitHub Basics (Oct 2026) — Credential ID: 10905178.',
       ],
       skillsUsed: ['C', 'Python', 'SQL', 'Git & GitHub'],
-    },
-    {
-      id: 'startup-syria',
-      type: 'Experience',
-      role: 'Startup Team Collaborator (Two-Time Participant)',
-      organization: 'Startup Syria',
-      location: 'Syria',
-      timeframe: '2025 — 2026',
-      summary:
-        'Worked in cross-functional startup teams under tight deadlines to evaluate product ideas, validate business models, and pitch solutions.',
-      bullets: [
-        'Partnered with product and engineering teammates to prepare structured startup pitches.',
-      ],
-      skillsUsed: ['Cross-Functional Teamwork', 'Analytical Problem Solving'],
     },
   ],
 };

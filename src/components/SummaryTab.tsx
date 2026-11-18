@@ -1,58 +1,29 @@
-import { Award, Check, Copy, ExternalLink, FileText, Github, Linkedin, Mail, MapPin, User } from 'lucide-react';
+import { Award, ExternalLink, FileText, Github, Linkedin, Mail, MapPin, User } from 'lucide-react';
 import { useState } from 'react';
+import { useSound } from '../context/SoundContext';
 import { ASSETS } from '../data/defaultResume';
-import { MenuSectionId, ResumeData } from '../types/resume';
+import { ResumeData } from '../types/resume';
 
 interface SummaryTabProps {
   data: ResumeData;
-  onNavigateTab: (tab: MenuSectionId) => void;
 }
 
-export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
-  const [copied, setCopied] = useState(false);
+export function SummaryTab({ data }: SummaryTabProps) {
+  const { playButton } = useSound();
   const [avatarError, setAvatarError] = useState(false);
-
-  const handleCopySummary = async () => {
-    try {
-      await navigator.clipboard.writeText(data.summary);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      setCopied(false);
-    }
-  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
       {/* Left Panel: Concrete Professional Summary + Education & Certificates */}
       <div className="lg:col-span-7 flex flex-col gap-5">
         <section className="botw-panel rounded-sm p-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#FAF6EC]/12">
-            <div>
-              <h1 className="font-display italic text-2xl sm:text-3xl font-semibold text-[#F3E3B4] tracking-wide">
-                Adventure Log · Summary
-              </h1>
-              <p className="text-xs text-[#FAF6EC]/65 mt-1">
-                AI Engineering, Flutter mobile apps, and full-stack software development.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={handleCopySummary}
-              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium text-[#F3E3B4] border border-[#E5C97B]/35 hover:border-[#E5C97B] bg-[#0B0E12]/60 rounded-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF]"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-3.5 h-3.5 text-[#4CE4FF]" aria-hidden="true" />
-                  <span>Copied</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>Copy Summary</span>
-                </>
-              )}
-            </button>
+          <div className="pb-4 border-b border-[#FAF6EC]/12">
+            <h1 className="font-display italic text-2xl sm:text-3xl font-semibold text-[#F3E3B4] tracking-wide">
+              Adventure Log · Summary
+            </h1>
+            <p className="text-xs text-[#FAF6EC]/65 mt-1">
+              AI Engineering, Flutter mobile apps, and full-stack software development.
+            </p>
           </div>
 
           <div className="mt-5 p-5 bg-[#08121B]/72 border border-[#4CE4FF]/20 rounded-sm">
@@ -95,8 +66,20 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
                   {data.profile.university}
                 </div>
               </div>
-              <div className="text-sm font-mono tabular-nums text-[#4CE4FF]">
-                {data.profile.gpa}
+              <div className="flex flex-col items-end gap-1">
+                <div className="text-sm font-mono tabular-nums text-[#4CE4FF]">
+                  {data.profile.gpa}
+                </div>
+                <a
+                  href={ASSETS.volleyballCertificatePdf}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => playButton()}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-[#F3E3B4] hover:text-white transition-colors"
+                >
+                  <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+                  <span>Volleyball Certificate (PDF)</span>
+                </a>
               </div>
             </div>
 
@@ -130,6 +113,7 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
                       href={cert.url}
                       target="_blank"
                       rel="noreferrer"
+                      onClick={() => playButton()}
                       className="inline-flex items-center gap-1.5 text-xs font-medium text-[#4CE4FF] hover:text-[#9AF0FF] transition-colors whitespace-nowrap shrink-0"
                     >
                       {cert.isPdf ? (
@@ -137,7 +121,7 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
                       ) : (
                         <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                       )}
-                      <span>{cert.isPdf ? 'View Certificate (PDF)' : 'Verify'}</span>
+                      <span>View Certificate</span>
                     </a>
                   )}
                 </div>
@@ -155,23 +139,6 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
                 {data.profile.spokenLanguages.join(' · ')}
               </div>
             </div>
-          </div>
-
-          <div className="mt-5 pt-4 border-t border-[#FAF6EC]/10 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => onNavigateTab('skills')}
-              className="px-4 py-2 text-xs font-medium text-[#F3E3B4] border border-[#E5C97B]/35 hover:border-[#E5C97B] bg-[#0B0E12]/60 rounded-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF]"
-            >
-              Open Skill Tree
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigateTab('portfolio')}
-              className="px-4 py-2 text-xs font-medium text-[#FAF6EC]/85 border border-[#FAF6EC]/20 hover:border-[#FAF6EC]/50 bg-[#0B0E12]/60 rounded-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF]"
-            >
-              Inspect Portfolio Equipment
-            </button>
           </div>
         </section>
       </div>
@@ -235,7 +202,7 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
             <div className="py-3 flex items-center justify-between gap-4">
               <dt className="text-[#FAF6EC]/60">Skill Tree Nodes</dt>
               <dd className="font-mono tabular-nums text-[#FAF6EC]">
-                {data.skills.length} across 4 branches
+                {data.skills.length} across {new Set(data.skills.map((s) => s.category)).size} branches
               </dd>
             </div>
             <div className="py-3 flex items-center justify-between gap-4">
@@ -250,6 +217,7 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
         <div className="mt-6 pt-5 border-t border-[#FAF6EC]/12 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <a
             href={`mailto:${data.profile.email}`}
+            onClick={() => playButton()}
             className="inline-flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-[#FAF6EC] border border-[#FAF6EC]/18 hover:border-[#E5C97B]/60 bg-[#0B0E12]/65 rounded-sm transition-colors whitespace-nowrap"
           >
             <Mail className="w-3.5 h-3.5 text-[#E5C97B]" aria-hidden="true" />
@@ -259,6 +227,7 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
             href={data.profile.githubUrl}
             target="_blank"
             rel="noreferrer"
+            onClick={() => playButton()}
             className="inline-flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-[#FAF6EC] border border-[#FAF6EC]/18 hover:border-[#E5C97B]/60 bg-[#0B0E12]/65 rounded-sm transition-colors whitespace-nowrap"
           >
             <Github className="w-3.5 h-3.5 text-[#E5C97B]" aria-hidden="true" />
@@ -269,6 +238,7 @@ export function SummaryTab({ data, onNavigateTab }: SummaryTabProps) {
             href={data.profile.linkedinUrl}
             target="_blank"
             rel="noreferrer"
+            onClick={() => playButton()}
             className="inline-flex items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium text-[#FAF6EC] border border-[#FAF6EC]/18 hover:border-[#E5C97B]/60 bg-[#0B0E12]/65 rounded-sm transition-colors whitespace-nowrap"
           >
             <Linkedin className="w-3.5 h-3.5 text-[#E5C97B]" aria-hidden="true" />

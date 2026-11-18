@@ -3,13 +3,18 @@ import React from 'react';
 interface SheikahSlateFrameProps {
   children: React.ReactNode;
   className?: string;
+  isExpanded?: boolean;
 }
 
-function SheikahEyeCrest() {
+function SheikahEyeCrest({ brightened = false }: { brightened?: boolean }) {
   return (
     <svg
       viewBox="0 0 64 36"
-      className="w-12 h-7 text-[#4CE4FF] drop-shadow-[0_0_8px_rgba(76,228,255,0.85)]"
+      className={`w-12 h-7 text-[#4CE4FF] transition-all duration-700 ${
+        brightened
+          ? 'drop-shadow-[0_0_14px_rgba(76,228,255,0.95)] scale-105'
+          : 'drop-shadow-[0_0_8px_rgba(76,228,255,0.85)]'
+      }`}
       fill="none"
       aria-hidden="true"
     >
@@ -41,20 +46,27 @@ function SheikahEyeCrest() {
 export function SheikahSlateFrame({
   children,
   className = '',
+  isExpanded = false,
 }: SheikahSlateFrameProps) {
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative h-full flex flex-col ${className}`}>
       {/* Top Carved Stone Handle Arch & Sheikah Eye Crest */}
       <div
         aria-hidden="true"
-        className="mx-auto w-44 h-7 rounded-t-xl bg-gradient-to-b from-[#252E38] to-[#171D24] border-t-2 border-x-2 border-[#7E6B4B]/80 flex items-center justify-center relative z-10 -mb-[2px] shadow-[0_-4px_14px_rgba(0,0,0,0.45)]"
+        className="mx-auto w-44 h-7 shrink-0 rounded-t-xl bg-gradient-to-b from-[#252E38] to-[#171D24] border-t-2 border-x-2 border-[#7E6B4B]/80 flex items-center justify-center relative z-10 -mb-[2px] shadow-[0_-4px_14px_rgba(0,0,0,0.45)]"
       >
         <div className="absolute inset-x-4 top-1 h-[1px] bg-gradient-to-r from-transparent via-[#4CE4FF]/55 to-transparent" />
-        <SheikahEyeCrest />
+        <SheikahEyeCrest brightened={isExpanded} />
       </div>
 
       {/* Outer Sculpted Stone & Bronze Sheikah Slate Chassis */}
-      <div className="relative rounded-xl p-2.5 sm:p-3.5 bg-gradient-to-br from-[#232B34] via-[#171E26] to-[#11161C] border-2 border-[#7D6949]/85 shadow-[0_24px_60px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(243,227,180,0.22)]">
+      <div
+        className={`relative flex-1 min-h-0 flex flex-col rounded-xl p-2.5 sm:p-3.5 bg-gradient-to-br from-[#232B34] via-[#171E26] to-[#11161C] border-2 border-[#7D6949]/85 transition-shadow duration-500 ${
+          isExpanded
+            ? 'shadow-[0_30px_90px_rgba(0,0,0,0.78),0_0_50px_rgba(76,228,255,0.14),inset_0_1px_0_rgba(243,227,180,0.28)]'
+            : 'shadow-[0_24px_60px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(243,227,180,0.22)]'
+        }`}
+      >
         {/* Corner Stone Lugs / Bolts */}
         <span
           aria-hidden="true"
@@ -92,25 +104,31 @@ export function SheikahSlateFrame({
         </div>
 
         {/* Inner Bronze Filigree Lip */}
-        <div className="rounded-lg p-[2px] bg-gradient-to-b from-[#927B53]/70 via-[#594B33]/60 to-[#927B53]/70">
+        <div className="flex-1 min-h-0 flex flex-col rounded-lg p-[2px] bg-gradient-to-b from-[#927B53]/70 via-[#594B33]/60 to-[#927B53]/70">
           {/* Glowing Cyan Sheikah Display Viewport */}
-          <div className="relative rounded-[6px] bg-[#071018]/86 backdrop-blur-md border border-[#4CE4FF]/55 shadow-[inset_0_0_32px_rgba(76,228,255,0.16)] overflow-hidden">
+          <div
+            className={`relative flex-1 min-h-0 flex flex-col rounded-[6px] backdrop-blur-md border transition-colors duration-500 overflow-hidden ${
+              isExpanded
+                ? 'bg-[#071018]/92 border-[#4CE4FF]/65 shadow-[inset_0_0_40px_rgba(76,228,255,0.2)]'
+                : 'bg-[#071018]/86 border-[#4CE4FF]/55 shadow-[inset_0_0_32px_rgba(76,228,255,0.16)]'
+            }`}
+          >
             {/* Inner Cyan Reticle Corner Accents */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute top-2 left-2 w-3 h-3 border-t border-l border-[#4CE4FF]/70"
+              className="pointer-events-none absolute top-2 left-2 w-3 h-3 border-t border-l border-[#4CE4FF]/70 z-20"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute top-2 right-2 w-3 h-3 border-t border-r border-[#4CE4FF]/70"
+              className="pointer-events-none absolute top-2 right-2 w-3 h-3 border-t border-r border-[#4CE4FF]/70 z-20"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-2 left-2 w-3 h-3 border-b border-l border-[#4CE4FF]/70"
+              className="pointer-events-none absolute bottom-2 left-2 w-3 h-3 border-b border-l border-[#4CE4FF]/70 z-20"
             />
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-2 right-2 w-3 h-3 border-b border-r border-[#4CE4FF]/70"
+              className="pointer-events-none absolute bottom-2 right-2 w-3 h-3 border-b border-r border-[#4CE4FF]/70 z-20"
             />
 
             {children}
