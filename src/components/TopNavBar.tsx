@@ -10,7 +10,7 @@ interface TopNavBarProps {
 }
 
 export const MENU_TABS: { id: MenuSectionId; label: string }[] = [
-  { id: 'adventure', label: 'Adventure Log' },
+  { id: 'adventure', label: 'Overview' },
   { id: 'skills', label: 'Skill Tree' },
   { id: 'portfolio', label: 'Portfolio' },
 ];

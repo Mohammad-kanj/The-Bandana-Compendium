@@ -44,7 +44,7 @@ export function IntroOverlay({
           onClick={onComplete}
           role="dialog"
           aria-label="Opening intro"
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#060C14] text-[#FAF6EC] cursor-pointer select-none print:hidden"
+          className="fixed inset-0 z-50 overflow-hidden flex flex-col items-center justify-center bg-[#060C14] text-[#FAF6EC] cursor-pointer select-none print:hidden"
         >
           {/* Warm Hyrule Dawn Radial Glow */}
           <motion.div

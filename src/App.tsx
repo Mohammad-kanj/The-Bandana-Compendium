@@ -20,7 +20,12 @@ import { MenuSectionId } from './types/resume';
 
 function AppContent() {
   const resumeData = DEFAULT_RESUME_DATA;
-  const { playNav, playButton } = useSound();
+  const {
+    playSheikahSlateOpen,
+    playSheikahSlateClose,
+    playTabClick,
+    playButton,
+  } = useSound();
   // Null = Main Title Screen (+ Hero's Path & Contact below fold); non-null = Expanded Sheikah Slate
   const [activeTab, setActiveTab] = useState<MenuSectionId | null>(null);
   const [tabDirection, setTabDirection] = useState<number>(1);
@@ -33,9 +38,11 @@ function AppContent() {
   const handleSelectTab = useCallback(
     (nextTab: MenuSectionId) => {
       if (nextTab === activeTab) return;
-      playNav();
       let direction = 1;
-      if (activeTab !== null) {
+      if (activeTab === null) {
+        playSheikahSlateOpen();
+      } else {
+        playTabClick();
         const prevIdx = MENU_TABS.findIndex((t) => t.id === activeTab);
         const nextIdx = MENU_TABS.findIndex((t) => t.id === nextTab);
         direction = nextIdx >= prevIdx ? 1 : -1;
@@ -43,26 +50,26 @@ function AppContent() {
       setTabDirection(direction);
       setActiveTab(nextTab);
     },
-    [activeTab, playNav]
+    [activeTab, playSheikahSlateOpen, playTabClick]
   );
 
   const handleStepTab = useCallback(
     (direction: -1 | 1) => {
       if (!activeTab) return;
-      playNav();
+      playTabClick();
       const currentIndex = MENU_TABS.findIndex((t) => t.id === activeTab);
       const nextIndex =
         (currentIndex + direction + MENU_TABS.length) % MENU_TABS.length;
       setTabDirection(direction);
       setActiveTab(MENU_TABS[nextIndex].id);
     },
-    [activeTab, playNav]
+    [activeTab, playTabClick]
   );
 
   const handleBackToTitle = useCallback(() => {
-    playButton();
+    playSheikahSlateClose();
     setActiveTab(null);
-  }, [playButton]);
+  }, [playSheikahSlateClose]);
 
   const handlePrint = useCallback(() => {
     playButton();

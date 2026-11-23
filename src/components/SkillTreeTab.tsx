@@ -69,11 +69,11 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
     : PROFICIENCY_SCALE[3];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       {/* Branch Filter Toolbar */}
-      <div className="botw-panel rounded-sm px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div className="botw-panel rounded-sm px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-3">
         <div
-          className="flex flex-wrap items-center gap-1.5"
+          className="no-scrollbar flex flex-nowrap sm:flex-wrap items-center gap-1.5 overflow-x-auto min-w-0 py-0.5"
           role="tablist"
           aria-label="Skill Tree Branches"
         >
@@ -98,20 +98,20 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
           })}
         </div>
 
-        <span className="font-mono text-xs tabular-nums text-[#FAF6EC]/60">
+        <span className="font-mono text-xs tabular-nums text-[#FAF6EC]/60 shrink-0 hidden sm:inline">
           {filteredSkills.length} nodes
         </span>
       </div>
 
-      {/* Skill Tree + Inspector Split */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        {/* Left: Visual Branching Skill Tree */}
-        <div className="lg:col-span-7 botw-panel rounded-sm p-5 sm:p-6 overflow-hidden">
-          <div className="flex items-baseline justify-between gap-4 pb-3 mb-5 border-b border-[#4CE4FF]/20">
+      {/* Skill Tree + Inspector Split (Inspector First on Mobile/Tablet for Immediate Tap Feedback) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+        {/* Visual Branching Skill Tree */}
+        <div className="lg:col-span-7 order-2 lg:order-1 botw-panel rounded-sm p-4 sm:p-6 overflow-hidden">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 pb-3 mb-4 sm:mb-5 border-b border-[#4CE4FF]/20">
             <h1 className="font-display italic text-2xl font-semibold text-[#F3E3B4]">
               Skill Tree
             </h1>
-            <span className="text-xs text-[#4CE4FF]">
+            <span className="text-[11px] sm:text-xs text-[#4CE4FF]">
               Core Foundation → Applied → Specialized
             </span>
           </div>
@@ -124,7 +124,7 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -filterDirection * 32 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-7"
+              className="space-y-6 sm:space-y-7"
             >
               {visibleBranches.map((branch) => {
                 const branchSkills = skills.filter((s) => s.category === branch);
@@ -145,18 +145,58 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
                       <span className="h-[1px] flex-1 bg-gradient-to-r from-[#4CE4FF]/35 to-transparent" />
                     </div>
 
-                    {/* 3-Tier Connected Tree Row */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 relative items-stretch">
+                    {/* Mobile (< sm): Compact 2-Column Tappable Grid */}
+                    <div className="grid grid-cols-2 gap-2.5 sm:hidden">
+                      {branchSkills.map((skill) => {
+                        const isSelected = selectedSkill?.id === skill.id;
+                        return (
+                          <BotWSlotFrame
+                            key={skill.id}
+                            selected={isSelected}
+                            onClick={() => {
+                              playButton();
+                              setSelectedSkillId(skill.id);
+                            }}
+                            ariaLabel={`${skill.name} — ${PROFICIENCY_SCALE[skill.proficiency].label}`}
+                            className="p-2.5 flex items-center gap-2"
+                          >
+                            <div
+                              className={`p-1.5 rounded-sm border shrink-0 ${
+                                isSelected
+                                  ? 'text-[#4CE4FF] border-[#4CE4FF]/55 bg-[#4CE4FF]/12'
+                                  : 'text-[#FAF6EC]/75 border-[#FAF6EC]/12 bg-[#0B0E12]/60'
+                              }`}
+                            >
+                              <SkillIcon iconKey={skill.iconKey} className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="text-xs font-semibold text-[#FAF6EC] truncate">
+                                {skill.name}
+                              </div>
+                              <div className="mt-1">
+                                <SheikahProficiencyGauge
+                                  level={skill.proficiency}
+                                  showNumeric={false}
+                                />
+                              </div>
+                            </div>
+                          </BotWSlotFrame>
+                        );
+                      })}
+                    </div>
+
+                    {/* Tablet & Desktop (sm+): 3-Tier Connected Tree Row */}
+                    <div className="hidden sm:grid sm:grid-cols-3 gap-3 relative items-stretch">
                       {[tier1, tier2, tier3].map((tierNodes, tierIdx) => (
                         <div
                           key={tierIdx}
                           className="relative flex flex-col gap-2.5 justify-center"
                         >
-                          {/* Glowing Connector Line between tiers on desktop */}
+                          {/* Glowing Connector Line between tiers */}
                           {tierIdx < 2 && (
                             <span
                               aria-hidden="true"
-                              className="hidden sm:block absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-[2px] bg-[#4CE4FF]/55 shadow-[0_0_6px_rgba(76,228,255,0.75)]"
+                              className="absolute -right-3 top-1/2 -translate-y-1/2 w-3 h-[2px] bg-[#4CE4FF]/55 shadow-[0_0_6px_rgba(76,228,255,0.75)]"
                             />
                           )}
 
@@ -212,11 +252,11 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
           </AnimatePresence>
         </div>
 
-        {/* Right: Skill Node Inspector */}
-        <aside className="lg:col-span-5 botw-panel rounded-sm p-6 flex flex-col justify-between">
+        {/* Skill Node Inspector (Top on Mobile, Right on Desktop) */}
+        <aside className="lg:col-span-5 order-1 lg:order-2 botw-panel rounded-sm p-4 sm:p-6 flex flex-col justify-between">
           {selectedSkill ? (
             <div>
-              <div className="flex items-center justify-between gap-3 text-xs text-[#4CE4FF]">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#4CE4FF]">
                 <span>
                   {selectedSkill.category} · {TIER_LABELS[selectedSkill.tier]}
                 </span>
@@ -226,14 +266,14 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
               </div>
 
               <div className="mt-2 pb-4 border-b border-[#FAF6EC]/12 flex items-center gap-3.5">
-                <div className="p-3 rounded-sm border border-[#4CE4FF]/45 bg-[#08121B]/85 text-[#4CE4FF]">
-                  <SkillIcon iconKey={selectedSkill.iconKey} className="w-6 h-6" />
+                <div className="p-2.5 sm:p-3 rounded-sm border border-[#4CE4FF]/45 bg-[#08121B]/85 text-[#4CE4FF] shrink-0">
+                  <SkillIcon iconKey={selectedSkill.iconKey} className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
-                <div>
-                  <h2 className="font-display italic text-3xl font-semibold text-[#F3E3B4] leading-none">
+                <div className="min-w-0">
+                  <h2 className="font-display italic text-2xl sm:text-3xl font-semibold text-[#F3E3B4] leading-none">
                     {selectedSkill.name}
                   </h2>
-                  <div className="mt-2.5 flex flex-wrap items-center gap-3">
+                  <div className="mt-2 sm:mt-2.5 flex flex-wrap items-center gap-2.5 sm:gap-3">
                     <SheikahProficiencyGauge
                       level={selectedSkill.proficiency}
                       size="md"
@@ -245,7 +285,7 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
                 </div>
               </div>
 
-              <div className="mt-5 space-y-4">
+              <div className="mt-4 sm:mt-5 space-y-3.5 sm:space-y-4">
                 <div>
                   <div className="text-xs font-medium text-[#FAF6EC]/60 mb-1">
                     Applied Evidence
@@ -272,14 +312,14 @@ export function SkillTreeTab({ skills }: SkillTreeTabProps) {
           )}
 
           {/* Proficiency Scale Legend */}
-          <div className="mt-6 pt-4 border-t border-[#FAF6EC]/12">
+          <div className="mt-5 sm:mt-6 pt-4 border-t border-[#FAF6EC]/12">
             <div className="text-xs font-semibold text-[#FAF6EC]/80 mb-2.5">
               Sheikah Proficiency Gauge Scale
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 text-xs">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
               {([4, 3, 2, 1] as ProficiencyLevel[]).map((lvl) => (
                 <div key={lvl} className="flex items-center justify-between gap-2">
-                  <span className="text-[#FAF6EC]/75">
+                  <span className="text-[#FAF6EC]/75 truncate">
                     {PROFICIENCY_SCALE[lvl].label}
                   </span>
                   <SheikahProficiencyGauge level={lvl} showNumeric={false} />

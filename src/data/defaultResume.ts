@@ -6,6 +6,7 @@ export const ASSETS = {
   aicCertificatePdf:
     '/assets/aistudio/Artificial_Intelligence_Micro-Certification__AIC__Product_School_bbd1e071.pdf',
   volleyballCertificatePdf: '/assets/aistudio/Volleyball_Certificate_48549b45.pdf',
+  resumeCvPdf: '/assets/aistudio/Mohamad_Kanj_CV_555ec961.pdf',
   systemsPreview: '/src/assets/images/project_systems_preview_1794928801592.jpg',
   compilerPreview: '/src/assets/images/project_compiler_preview_1794928802290.jpg',
   webappPreview: '/src/assets/images/project_webapp_preview_1794928803662.jpg',
@@ -14,6 +15,10 @@ export const ASSETS = {
   korokCharacter: '/src/assets/images/bandana_swan_only.png',
   korokAudioYahaha: '/src/assets/audio/korok-yahaha.mp3',
   korokAudioFound: '/src/assets/audio/botw-korok-found.mp3',
+  botwPuzzleSolved: '/src/assets/audio/botw-puzzle-solved.mp3',
+  sheikahSlateOpen: '/src/assets/audio/sheikah-slate-open.mp3',
+  sheikahSlateClose: '/src/assets/audio/sheikah-slate-close.mp3',
+  sheikahTabClick: '/src/assets/audio/sheikah-tab-click.mp3',
 };
 
 export const PROFICIENCY_SCALE: Record<ProficiencyLevel, ProficiencyMeta> = {
@@ -48,7 +53,7 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
     fullName: 'Mohammad Kanj Abo Alkanj',
     displayName: 'Mohammad Kanj',
     headline: 'AI Engineering · Flutter & Full-Stack Software Developer',
-    phone: '0939250560',
+    phone: '+963 939 250 560',
     university: 'Arab International University (AIU)',
     degree: 'B.S. in Artificial Intelligence Engineering',
     gradYear: 'Expected Sep 2027',
@@ -59,6 +64,7 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
     linkedinUrl: 'https://www.linkedin.com/in/mohammad-kanj-445626278',
     presentationPostUrl: 'https://lnkd.in/p/dV86hJNF',
     youtubeUrl: 'https://www.youtube.com/@bandana-boi143/videos',
+    instagramUrl: 'https://www.instagram.com/bandanaboi.143?bqrl=M2VpdzdpbXhjMTRp',
     coursework: [
       'CS50x (Harvard University)',
       'Algorithms & Data Structures',
@@ -74,23 +80,40 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
     ],
   },
   summary:
-    'Artificial Intelligence Engineering student at Arab International University and Harvard CS50x graduate building full-stack web and cross-platform mobile software. Experienced in taking interactive, real-time multiplayer applications from concept to deployment using React, TypeScript, Python (FastAPI), and Flutter/Dart, backed by core systems grounding in C, SQL, and modern AI architectures such as RAG and edge computing. Complemented by weekly technical writing and hands-on media production using Filmcraft and Photocraft.',
+    'Artificial Intelligence Engineering student at Arab International University building full-stack web apps, cross-platform mobile games, and technical content.',
+  summaryPoints: [
+    {
+      label: 'Full-Stack & Mobile Development',
+      text: 'Build interactive, real-time web apps and cross-platform mobile games from concept to deployment using React, TypeScript, Python (FastAPI), and Flutter/Dart.',
+    },
+    {
+      label: 'CS & AI Foundations',
+      text: 'Grounded in core coursework spanning algorithms, data structures, C memory management, relational SQL databases, RAG pipelines, and edge computing / LoRa.',
+    },
+    {
+      label: 'Technical Writing & Content Creation',
+      text: 'Publish weekly technical breakdowns on LinkedIn and produce long- & short-form video content and custom thumbnails using Filmcraft and Photocraft.',
+    },
+    {
+      label: 'Presentation Design',
+      text: 'Craft dynamic Microsoft PowerPoint decks featuring integrated 3D models, smooth slide-to-slide transitions, and clear visual storytelling.',
+    },
+    {
+      label: 'Active & Continuous Learner',
+      text: 'Constantly exploring emerging AI tools, modern software architectures, and new technologies through self-directed builds, certifications, and hands-on experimentation.',
+    },
+    {
+      label: 'Collaboration & Leadership',
+      text: 'Thrive in team-driven engineering builds and competitive environments—1st place winner in the AIU Volleyball Championship.',
+    },
+  ],
   summaryHighlights: [
-    'AI Engineering & CS50x Foundation',
-    'Flutter & Dart Mobile Apps',
-    'React, TypeScript & FastAPI',
-    'Technical Writing & Filmcraft / Photocraft',
+    'AI Engineering & CS50x',
+    'Flutter & Full-Stack Web',
+    'Technical Writing & Media',
+    'Filmcraft · Photocraft',
   ],
   certifications: [
-    {
-      id: 'aic-product-school',
-      title: 'Artificial Intelligence Micro-Certification (AIC)™',
-      issuer: 'Product School, Inc.',
-      date: 'Jan 14, 2026',
-      credentialId: 'cert_qg8fjbm5',
-      url: ASSETS.aicCertificatePdf,
-      isPdf: true,
-    },
     {
       id: 'cs50x-harvard',
       title: 'CS50x: Introduction to Computer Science',
@@ -101,11 +124,13 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       isPdf: false,
     },
     {
-      id: 'github-basics',
-      title: 'GitHub Basics Certificate of Completion',
-      issuer: 'Simplilearn SkillUP',
-      date: 'Oct 2026',
-      credentialId: '10905178',
+      id: 'aic-product-school',
+      title: 'Artificial Intelligence Micro-Certification (AIC)™',
+      issuer: 'Product School, Inc.',
+      date: '2026',
+      credentialId: 'cert_qg8fjbm5',
+      url: ASSETS.aicCertificatePdf,
+      isPdf: true,
     },
   ],
   skills: [
@@ -173,9 +198,9 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       category: 'Tools',
       proficiency: 4,
       tier: 1,
-      yearsOrContext: 'Certified Workflow',
+      yearsOrContext: 'Version Control',
       evidence:
-        'Version control across solo and team software builds; Simplilearn GitHub Basics certified.',
+        'Version control and collaborative branching workflows across solo and team software builds.',
       iconKey: 'gitBranch',
     },
     {
@@ -417,21 +442,6 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       skillsUsed: ['Python', 'Algorithms & Data Structures', 'Cross-Functional Teamwork'],
     },
     {
-      id: 'media-youtube',
-      type: 'Media',
-      role: 'YouTube Content Creator',
-      organization: 'Bandana-Boi · Chess & Upcoming Tech Channel',
-      location: 'Damascus, Syria',
-      timeframe: 'Ongoing',
-      summary:
-        'Script, record, edit, and design custom thumbnails for my YouTube channel "Bandana-Boi", while preparing an upcoming programming & technology channel.',
-      bullets: [
-        'Design and edit my own YouTube thumbnails and channel graphics using Adobe Photoshop and its alternative Photocraft.',
-        'Transitioned video editing workflow from Adobe Premiere Pro to Filmcraft alongside upcoming tech content production.',
-      ],
-      skillsUsed: ['Photoshop & Photocraft', 'Thumbnail Design', 'Filmcraft'],
-    },
-    {
       id: 'presentation-designer',
       type: 'Design',
       role: 'Presentation Designer',
@@ -447,20 +457,34 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
       skillsUsed: ['Microsoft PowerPoint', '3D Models & Transitions', 'Visual Storytelling'],
     },
     {
+      id: 'media-youtube',
+      type: 'Media',
+      role: 'Social Media & Content Creator',
+      organization: 'Bandana-Boi · YouTube & Instagram',
+      location: 'Damascus, Syria',
+      timeframe: 'Apr 2026 — Aug 2026',
+      summary:
+        'Ran the "Bandana-Boi" chess content channel across YouTube and Instagram Reels, editing long-form videos, adapting highlights into short-form Reels, and designing custom thumbnails.',
+      bullets: [
+        'Produced chess videos on YouTube and edited vertical short-form clips from those videos for Instagram Reels (@bandanaboi.143).',
+        'Designed custom thumbnails and graphics using Adobe Photoshop and its alternative Photocraft, and transitioned video editing from Adobe Premiere Pro to Filmcraft.',
+      ],
+      skillsUsed: ['Photoshop & Photocraft', 'Filmcraft', 'Instagram Reels', 'Thumbnail Design'],
+    },
+    {
       id: 'certifications',
       type: 'Certificates',
       role: 'CS50x & Technical Certifications',
-      organization: 'Harvard University · Product School · Simplilearn',
+      organization: 'Harvard University · Product School',
       location: 'Verified Online',
       timeframe: '2025 — 2026',
       summary:
-        'Verified credentials spanning foundational computer science, artificial intelligence, and version control workflows.',
+        'Verified credentials spanning foundational computer science and artificial intelligence.',
       bullets: [
         'Harvard CS50x: Introduction to Computer Science (2025) — C, Python, SQL, memory management, 10 problem sets & final project.',
-        'Product School Artificial Intelligence Micro-Certification (AIC)™ (Jan 2026).',
-        'Simplilearn GitHub Basics (Oct 2026) — Credential ID: 10905178.',
+        'Product School Artificial Intelligence Micro-Certification (AIC)™ (2026).',
       ],
-      skillsUsed: ['C', 'Python', 'SQL', 'Git & GitHub'],
+      skillsUsed: ['C', 'Python', 'SQL', 'AI Fundamentals'],
     },
   ],
 };

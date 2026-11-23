@@ -67,7 +67,14 @@ const KOROK_PHRASES = [
 ];
 
 export function KorokProvider({ children }: { children: ReactNode }) {
-  const { playCollectible, playFanfare, playButton, playSwanSpam } = useSound();
+  const {
+    playCollectible,
+    playFanfare,
+    playButton,
+    playChestOpen,
+    playSheikahSlateClose,
+    playSwanSpam,
+  } = useSound();
   const [discoveredIds, setDiscoveredIds] = useState<string[]>([]);
   const [lastPopup, setLastPopup] = useState<KorokPopupState | null>(null);
   const [showCelebrationToast, setShowCelebrationToast] = useState(false);
@@ -197,20 +204,36 @@ export function KorokProvider({ children }: { children: ReactNode }) {
     };
   }, [triggerKorok]);
 
+  const setCompendiumOpenWithSound = useCallback(
+    (nextOpen: boolean) => {
+      setCompendiumOpen((prev) => {
+        if (prev !== nextOpen) {
+          if (nextOpen) {
+            playChestOpen();
+          } else {
+            playSheikahSlateClose();
+          }
+        }
+        return nextOpen;
+      });
+    },
+    [playChestOpen, playSheikahSlateClose]
+  );
+
   // Close Secret Compendium modal on Escape
   useEffect(() => {
     if (!compendiumOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setCompendiumOpen(false);
+        setCompendiumOpenWithSound(false);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [compendiumOpen]);
+  }, [compendiumOpen, setCompendiumOpenWithSound]);
 
   const isDiscovered = useCallback(
     (id: string) => discoveredIds.includes(id),
@@ -280,9 +303,16 @@ export function KorokProvider({ children }: { children: ReactNode }) {
       triggerKorok,
       lastPopup,
       compendiumOpen,
-      setCompendiumOpen,
+      setCompendiumOpen: setCompendiumOpenWithSound,
     }),
-    [discoveredIds, isDiscovered, triggerKorok, lastPopup, compendiumOpen]
+    [
+      discoveredIds,
+      isDiscovered,
+      triggerKorok,
+      lastPopup,
+      compendiumOpen,
+      setCompendiumOpenWithSound,
+    ]
   );
 
   return (
@@ -340,14 +370,13 @@ export function KorokProvider({ children }: { children: ReactNode }) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed left-4 bottom-4 sm:left-6 sm:bottom-6 z-40 print:hidden"
+            className="fixed left-3 bottom-3 sm:left-6 sm:bottom-6 z-40 print:hidden"
           >
             {allFound ? (
               <motion.button
                 type="button"
                 onClick={() => {
-                  playButton();
-                  setCompendiumOpen((prev) => !prev);
+                  setCompendiumOpenWithSound(!compendiumOpen);
                 }}
                 aria-expanded={compendiumOpen}
                 aria-label="Open Secret Compendium"
@@ -418,7 +447,7 @@ export function KorokProvider({ children }: { children: ReactNode }) {
             exit={{ opacity: 0, y: 12, scale: 0.96 }}
             transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
             role="status"
-            className="fixed left-4 bottom-16 sm:left-6 sm:bottom-20 z-40 max-w-xs sm:max-w-sm bg-[#091826]/94 backdrop-blur-md border border-[#F3E3B4]/60 rounded-xl p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.55),0_0_24px_rgba(243,227,180,0.18)] print:hidden"
+            className="fixed left-3 right-3 bottom-16 sm:right-auto sm:left-6 sm:bottom-20 z-40 sm:max-w-sm bg-[#091826]/94 backdrop-blur-md border border-[#F3E3B4]/60 rounded-xl p-3.5 shadow-[0_12px_36px_rgba(0,0,0,0.55),0_0_24px_rgba(243,227,180,0.18)] print:hidden"
           >
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-lg bg-[#161209]/90 border border-[#FACC15]/55 flex items-center justify-center shrink-0">
@@ -443,9 +472,8 @@ export function KorokProvider({ children }: { children: ReactNode }) {
                   <button
                     type="button"
                     onClick={() => {
-                      playButton();
                       setShowCelebrationToast(false);
-                      setCompendiumOpen(true);
+                      setCompendiumOpenWithSound(true);
                     }}
                     className="px-3 py-1 text-xs font-semibold text-[#08121B] bg-[#F3E3B4] hover:bg-[#FFF5D6] rounded-sm transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF]"
                   >
@@ -478,7 +506,7 @@ export function KorokProvider({ children }: { children: ReactNode }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
             className="fixed inset-0 z-50 bg-[#040A10]/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto print:hidden"
-            onClick={() => setCompendiumOpen(false)}
+            onClick={() => setCompendiumOpenWithSound(false)}
           >
             <motion.div
               role="dialog"
@@ -489,9 +517,9 @@ export function KorokProvider({ children }: { children: ReactNode }) {
               exit={{ opacity: 0, y: 14, scale: 0.97 }}
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-2xl my-auto bg-[#091522]/96 border border-[#4CE4FF]/45 rounded-xl p-6 sm:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.65),0_0_40px_rgba(76,228,255,0.16)] text-[#FAF6EC]"
+              className="relative w-full max-w-2xl max-h-[90dvh] overflow-y-auto my-auto bg-[#091522]/96 border border-[#4CE4FF]/45 rounded-xl p-4 sm:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.65),0_0_40px_rgba(76,228,255,0.16)] text-[#FAF6EC]"
             >
-              <div className="flex items-center justify-between gap-4 pb-4 border-b border-[#4CE4FF]/20">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-[#4CE4FF]/20">
                 <div>
                   <h2
                     id="secret-compendium-title"
@@ -559,8 +587,7 @@ export function KorokProvider({ children }: { children: ReactNode }) {
                   <button
                     type="button"
                     onClick={() => {
-                      playButton();
-                      setCompendiumOpen(false);
+                      setCompendiumOpenWithSound(false);
                     }}
                     aria-label="Close Secret Compendium"
                     className="p-1.5 rounded-sm border border-[#4CE4FF]/30 hover:border-[#4CE4FF] text-[#FAF6EC]/75 hover:text-white transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4CE4FF]"
@@ -677,8 +704,7 @@ export function KorokProvider({ children }: { children: ReactNode }) {
                   <button
                     type="button"
                     onClick={() => {
-                      playButton();
-                      setCompendiumOpen(false);
+                      setCompendiumOpenWithSound(false);
                     }}
                     className="px-4 py-2 text-xs font-semibold text-[#061018] bg-[#4CE4FF] hover:bg-[#9AF0FF] rounded-sm transition-colors cursor-pointer"
                   >

@@ -1,4 +1,4 @@
-import { Check, ExternalLink, FileText, Github, Linkedin, Mail, MapPin, Phone, Youtube } from 'lucide-react';
+import { Check, ExternalLink, FileText, Github, Instagram, Linkedin, Mail, MapPin, Phone, Youtube } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSound } from '../context/SoundContext';
@@ -107,7 +107,7 @@ export function HerosPathSection({
       <section
         id="heros-path"
         aria-labelledby="heros-path-heading"
-        className="relative max-w-[1440px] mx-auto px-6 sm:px-10 pt-16 pb-14"
+        className="relative max-w-[1440px] mx-auto px-4 sm:px-10 pt-12 sm:pt-16 pb-10 sm:pb-14"
       >
         <ScrollReveal
           variant="header"
@@ -132,13 +132,13 @@ export function HerosPathSection({
         </ScrollReveal>
 
         {/* ScrollReveal-Driven Vertical Spine & Sequenced Card Branches */}
-        <div ref={timelineRef} className="relative mt-12">
+        <div ref={timelineRef} className="relative mt-10 sm:mt-12">
           {/* Continuous Vertical Center Spine (Terminates Cleanly at Final Borok Center) */}
           <div
             ref={spineRef}
             aria-hidden="true"
             style={{ height: totalSpineHeight > 0 ? `${totalSpineHeight}px` : '0px' }}
-            className="pointer-events-none absolute left-4 md:left-1/2 -translate-x-1/2 top-2 w-[2px] z-[2]"
+            className="pointer-events-none absolute left-5 md:left-1/2 -translate-x-1/2 top-2 w-[2px] z-[2]"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#7BE8FF]/18 via-[#4CE4FF]/24 to-[#7BE8FF]/18 rounded-full" />
             <motion.div
@@ -180,7 +180,7 @@ export function HerosPathSection({
                     ref={(el) => {
                       nodeRefs.current[idx] = el;
                     }}
-                    className="absolute left-4 md:left-1/2 top-2 -translate-x-1/2 z-10 flex items-center justify-center"
+                    className="absolute left-5 md:left-1/2 top-2 -translate-x-1/2 z-10 flex items-center justify-center"
                   >
                     <KorokNode
                       korokId={`korok-path-${entry.id}`}
@@ -195,10 +195,10 @@ export function HerosPathSection({
                     />
                   </div>
 
-                  {/* Seamless Horizontal Light Branch (Mobile: left=32px..50px overlapping circle & card) */}
+                  {/* Seamless Horizontal Light Branch (Mobile: left=36px..52px overlapping circle & card) */}
                   <div
                     aria-hidden="true"
-                    className="md:hidden pointer-events-none absolute top-[31px] left-[32px] w-[18px] h-[2px] z-[5]"
+                    className="md:hidden pointer-events-none absolute top-[31px] left-[36px] w-[16px] h-[2px] z-[5]"
                   >
                     <div className="absolute inset-0 bg-[#4CE4FF]/15 rounded-full" />
                     <motion.div
@@ -259,7 +259,7 @@ export function HerosPathSection({
                       }
                     >
                       <div
-                        className={`relative overflow-hidden bg-[#060E17]/95 backdrop-blur-md border rounded-sm p-5 transition-all duration-500 ${
+                        className={`relative overflow-hidden bg-[#060E17]/95 backdrop-blur-md border rounded-sm p-4 sm:p-5 transition-all duration-500 ${
                           isMilestoneActive
                             ? 'border-[#7BE8FF]/80 shadow-[0_10px_34px_rgba(0,0,0,0.52),0_0_22px_rgba(76,228,255,0.22),inset_0_0_12px_rgba(76,228,255,0.06)] delay-[320ms]'
                             : 'border-[#4CE4FF]/22 shadow-[0_8px_28px_rgba(0,0,0,0.42)] hover:border-[#4CE4FF]/55'
@@ -292,7 +292,7 @@ export function HerosPathSection({
                               </span>
                             </div>
 
-                        <h3 className="font-display italic text-2xl font-semibold text-[#FAF6EC] mt-1.5 leading-snug">
+                        <h3 className="font-display italic text-xl sm:text-2xl font-semibold text-[#FAF6EC] mt-1.5 leading-snug">
                           {entry.role}
                         </h3>
 
@@ -331,16 +331,6 @@ export function HerosPathSection({
                           {entry.id === 'certifications' && (
                             <div className="flex items-center gap-3">
                               <a
-                                href={ASSETS.aicCertificatePdf}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={() => playButton()}
-                                className="inline-flex items-center gap-1 text-[#4CE4FF] hover:text-[#9AF0FF] transition-colors"
-                              >
-                                <FileText className="w-3.5 h-3.5" aria-hidden="true" />
-                                <span>AIC Certificate</span>
-                              </a>
-                              <a
                                 href="https://cs50.harvard.edu/certificates/46a4433a-b4f1-4fce-9f1e-e548d8de319c"
                                 target="_blank"
                                 rel="noreferrer"
@@ -349,6 +339,16 @@ export function HerosPathSection({
                               >
                                 <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                                 <span>CS50x Certificate</span>
+                              </a>
+                              <a
+                                href={ASSETS.aicCertificatePdf}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={() => playButton()}
+                                className="inline-flex items-center gap-1 text-[#4CE4FF] hover:text-[#9AF0FF] transition-colors"
+                              >
+                                <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+                                <span>AIC Certificate</span>
                               </a>
                             </div>
                           )}
@@ -365,16 +365,30 @@ export function HerosPathSection({
                             </a>
                           )}
                           {entry.id === 'media-youtube' && (
-                            <a
-                              href={profile.youtubeUrl}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={() => playButton()}
-                              className="inline-flex items-center gap-1 text-[#4CE4FF] hover:text-[#9AF0FF] transition-colors"
-                            >
-                              <Youtube className="w-3.5 h-3.5" aria-hidden="true" />
-                              <span>Bandana-Boi</span>
-                            </a>
+                            <div className="flex items-center gap-3">
+                              <a
+                                href={profile.youtubeUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={() => playButton()}
+                                className="inline-flex items-center gap-1 text-[#4CE4FF] hover:text-[#9AF0FF] transition-colors"
+                              >
+                                <Youtube className="w-3.5 h-3.5" aria-hidden="true" />
+                                <span>Bandana-Boi</span>
+                              </a>
+                              {profile.instagramUrl && (
+                                <a
+                                  href={profile.instagramUrl}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  onClick={() => playButton()}
+                                  className="inline-flex items-center gap-1 text-[#4CE4FF] hover:text-[#9AF0FF] transition-colors"
+                                >
+                                  <Instagram className="w-3.5 h-3.5" aria-hidden="true" />
+                                  <span>Instagram</span>
+                                </a>
+                              )}
+                            </div>
                           )}
                           {entry.id === 'linkedin-creator' && (
                             <a
@@ -403,7 +417,7 @@ export function HerosPathSection({
       {/* Separator between Hero's Path and Warm Signal Beacon Contact */}
       <ScrollReveal
         variant="line"
-        className="relative max-w-[1440px] mx-auto px-6 sm:px-10"
+        className="relative max-w-[1440px] mx-auto px-4 sm:px-10"
       >
         <div className="flex items-center gap-4">
           <span className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#F3C87B]/45 to-[#F3C87B]/25" />
@@ -424,7 +438,7 @@ export function HerosPathSection({
       <section
         id="contact"
         aria-labelledby="contact-heading"
-        className="relative max-w-[1440px] mx-auto px-6 sm:px-10 pt-14 pb-20"
+        className="relative max-w-[1440px] mx-auto px-4 sm:px-10 pt-10 sm:pt-14 pb-20"
       >
         {/* Warm Campfire / Signal Beacon Atmospheric Backlighting */}
         <div
@@ -436,8 +450,8 @@ export function HerosPathSection({
           }}
         />
 
-        <div className="relative rounded-2xl bg-[#161009]/70 backdrop-blur-md border border-[#F3C87B]/32 p-6 sm:p-9 shadow-[0_16px_54px_rgba(0,0,0,0.45),0_0_60px_rgba(245,166,65,0.12)]">
-          <ScrollReveal variant="header" className="mb-8">
+        <div className="relative rounded-2xl bg-[#161009]/70 backdrop-blur-md border border-[#F3C87B]/32 p-5 sm:p-9 shadow-[0_16px_54px_rgba(0,0,0,0.45),0_0_60px_rgba(245,166,65,0.12)]">
+          <ScrollReveal variant="header" className="mb-6 sm:mb-8">
             <div className="text-xs font-semibold tracking-[0.14em] uppercase text-[#F7B955]">
               Signal Beacon · Get In Touch
             </div>
@@ -452,7 +466,7 @@ export function HerosPathSection({
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
             {/* Email Card */}
             <ScrollReveal variant="card" delay={0} className="h-full">
               <button

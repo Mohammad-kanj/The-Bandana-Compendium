@@ -53,7 +53,7 @@ export function SheikahSlateFrame({
       {/* Top Carved Stone Handle Arch & Sheikah Eye Crest */}
       <div
         aria-hidden="true"
-        className="mx-auto w-44 h-7 shrink-0 rounded-t-xl bg-gradient-to-b from-[#252E38] to-[#171D24] border-t-2 border-x-2 border-[#7E6B4B]/80 flex items-center justify-center relative z-10 -mb-[2px] shadow-[0_-4px_14px_rgba(0,0,0,0.45)]"
+        className="mx-auto w-36 sm:w-44 h-6 sm:h-7 shrink-0 rounded-t-xl bg-gradient-to-b from-[#252E38] to-[#171D24] border-t-2 border-x-2 border-[#7E6B4B]/80 flex items-center justify-center relative z-10 -mb-[2px] shadow-[0_-4px_14px_rgba(0,0,0,0.45)]"
       >
         <div className="absolute inset-x-4 top-1 h-[1px] bg-gradient-to-r from-transparent via-[#4CE4FF]/55 to-transparent" />
         <SheikahEyeCrest brightened={isExpanded} />
@@ -61,7 +61,7 @@ export function SheikahSlateFrame({
 
       {/* Outer Sculpted Stone & Bronze Sheikah Slate Chassis */}
       <div
-        className={`relative flex-1 min-h-0 flex flex-col rounded-xl p-2.5 sm:p-3.5 bg-gradient-to-br from-[#232B34] via-[#171E26] to-[#11161C] border-2 border-[#7D6949]/85 transition-shadow duration-500 ${
+        className={`relative flex-1 min-h-0 flex flex-col rounded-xl p-1.5 sm:p-3.5 bg-gradient-to-br from-[#232B34] via-[#171E26] to-[#11161C] border-2 border-[#7D6949]/85 transition-shadow duration-500 ${
           isExpanded
             ? 'shadow-[0_30px_90px_rgba(0,0,0,0.78),0_0_50px_rgba(76,228,255,0.14),inset_0_1px_0_rgba(243,227,180,0.28)]'
             : 'shadow-[0_24px_60px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(243,227,180,0.22)]'

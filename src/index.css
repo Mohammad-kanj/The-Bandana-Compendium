@@ -7,6 +7,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   html {
     font-family: var(--font-sans);
     color-scheme: dark;
@@ -93,6 +98,16 @@
 .botw-pointer-active {
   animation: botw-pointer-float 1.45s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   will-change: transform;
+}
+
+/* Hide scrollbars cleanly for horizontal touch carousels */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Respect reduced motion */

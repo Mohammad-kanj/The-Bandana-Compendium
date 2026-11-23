@@ -81,13 +81,20 @@ export interface ProfileData {
   linkedinUrl: string;
   presentationPostUrl?: string;
   youtubeUrl: string;
+  instagramUrl?: string;
   coursework: string[];
   spokenLanguages: string[];
+}
+
+export interface SummaryPoint {
+  label: string;
+  text: string;
 }
 
 export interface ResumeData {
   profile: ProfileData;
   summary: string;
+  summaryPoints: SummaryPoint[];
   summaryHighlights: string[];
   certifications: CertificationItem[];
   skills: SkillItem[];

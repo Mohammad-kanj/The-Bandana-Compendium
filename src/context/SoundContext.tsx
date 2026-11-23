@@ -8,20 +8,30 @@ import {
 } from 'react';
 import {
   playButtonChime,
+  playChestOpenSound,
   playCollectibleChime,
   playCompendiumFanfare,
   playHoverChime,
   playKorokShakeSound,
+  playMenuHoverClickSound,
   playNavChime,
+  playSheikahSlateCloseSound,
+  playSheikahSlateOpenSound,
   playSwanSpamSound,
+  playTabClickSound,
 } from '../utils/korokSound';
 
 interface SoundContextValue {
   playNav: () => void;
   playButton: () => void;
   playHover: () => void;
+  playMenuHoverClick: () => void;
   playCollectible: (variantIndex?: number) => void;
   playFanfare: () => void;
+  playChestOpen: () => void;
+  playSheikahSlateOpen: () => void;
+  playSheikahSlateClose: () => void;
+  playTabClick: () => void;
   playShake: (variantIndex?: number, requireUnlocked?: boolean) => void;
   playSwanSpam: (tapCount?: number) => void;
 }
@@ -41,12 +51,32 @@ export function SoundProvider({ children }: { children: ReactNode }) {
     playHoverChime();
   }, []);
 
+  const playMenuHoverClick = useCallback(() => {
+    playMenuHoverClickSound();
+  }, []);
+
   const playCollectible = useCallback((variantIndex = 0) => {
     playCollectibleChime(variantIndex);
   }, []);
 
   const playFanfare = useCallback(() => {
     playCompendiumFanfare();
+  }, []);
+
+  const playChestOpen = useCallback(() => {
+    playChestOpenSound();
+  }, []);
+
+  const playSheikahSlateOpen = useCallback(() => {
+    playSheikahSlateOpenSound();
+  }, []);
+
+  const playSheikahSlateClose = useCallback(() => {
+    playSheikahSlateCloseSound();
+  }, []);
+
+  const playTabClick = useCallback(() => {
+    playTabClickSound();
   }, []);
 
   const playShake = useCallback((variantIndex = 0, requireUnlocked = false) => {
@@ -113,12 +143,30 @@ export function SoundProvider({ children }: { children: ReactNode }) {
       playNav,
       playButton,
       playHover,
+      playMenuHoverClick,
       playCollectible,
       playFanfare,
+      playChestOpen,
+      playSheikahSlateOpen,
+      playSheikahSlateClose,
+      playTabClick,
       playShake,
       playSwanSpam,
     }),
-    [playNav, playButton, playHover, playCollectible, playFanfare, playShake, playSwanSpam]
+    [
+      playNav,
+      playButton,
+      playHover,
+      playMenuHoverClick,
+      playCollectible,
+      playFanfare,
+      playChestOpen,
+      playSheikahSlateOpen,
+      playSheikahSlateClose,
+      playTabClick,
+      playShake,
+      playSwanSpam,
+    ]
   );
 
   return (

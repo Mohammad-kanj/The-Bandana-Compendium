@@ -285,7 +285,7 @@ export function playCollectibleChime(variantIndex = 0): void {
 }
 
 /**
- * Celebratory Korok discovery fanfare when all collectibles are found.
+ * Breath of the Wild Shrine / Puzzle Solved sound when all 5 Borok secrets are first uncovered.
  */
 export function playCompendiumFanfare(): void {
   if (typeof window === 'undefined') return;
@@ -296,8 +296,8 @@ export function playCompendiumFanfare(): void {
       activeClip.currentTime = 0;
     }
 
-    const audio = new Audio(ASSETS.korokAudioFound);
-    audio.volume = 0.5;
+    const audio = new Audio(ASSETS.botwPuzzleSolved);
+    audio.volume = 0.27;
     activeClip = audio;
 
     const promise = audio.play();
@@ -321,6 +321,133 @@ export function playCompendiumFanfare(): void {
   } catch {
     playSynthCollectibleFallback(0);
   }
+}
+
+/**
+ * Plays the trimmed discovery chime (without "Yahaha!") when opening the Secret Compendium.
+ */
+export function playChestOpenSound(): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    if (activeClip) {
+      activeClip.pause();
+      activeClip.currentTime = 0;
+    }
+
+    const audio = new Audio(ASSETS.korokAudioFound);
+    audio.volume = 0.5;
+    activeClip = audio;
+
+    const promise = audio.play();
+    if (promise && typeof promise.catch === 'function') {
+      promise.catch(() => playSynthCollectibleFallback(1));
+    }
+  } catch {
+    playSynthCollectibleFallback(1);
+  }
+}
+
+/**
+ * Plays the authentic Breath of the Wild Sheikah Slate opening sound
+ * when entering Portfolio, Adventure Log, or Skill Tree from the main menu.
+ */
+export function playSheikahSlateOpenSound(): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    if (activeClip) {
+      activeClip.pause();
+      activeClip.currentTime = 0;
+    }
+
+    const audio = new Audio(ASSETS.sheikahSlateOpen);
+    audio.volume = 0.55;
+    activeClip = audio;
+
+    const promise = audio.play();
+    if (promise && typeof promise.catch === 'function') {
+      promise.catch(() => playSynthCollectibleFallback(2));
+    }
+  } catch {
+    playSynthCollectibleFallback(2);
+  }
+}
+
+/**
+ * Plays the authentic Breath of the Wild Sheikah Slate closing sound
+ * when exiting the Sheikah Slate workspace or closing the Secret Compendium.
+ */
+export function playSheikahSlateCloseSound(): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    if (activeClip) {
+      activeClip.pause();
+      activeClip.currentTime = 0;
+    }
+
+    const audio = new Audio(ASSETS.sheikahSlateClose);
+    audio.volume = 0.55;
+    activeClip = audio;
+
+    const promise = audio.play();
+    if (promise && typeof promise.catch === 'function') {
+      promise.catch(() => playHoverChime());
+    }
+  } catch {
+    playHoverChime();
+  }
+}
+
+/**
+ * Plays a crisp, small Breath of the Wild UI click sound when switching between
+ * Adventure Log, Skill Tree, and Portfolio tabs.
+ */
+export function playTabClickSound(): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    const audio = new Audio(ASSETS.sheikahTabClick);
+    audio.volume = 0.42;
+
+    const promise = audio.play();
+    if (promise && typeof promise.catch === 'function') {
+      promise.catch(() => playHoverChime());
+    }
+  } catch {
+    playHoverChime();
+  }
+}
+
+let lastMenuHoverClickTime = 0;
+
+/**
+ * Plays a subtle, crisp little BotW cursor click when hovering over the 5 main titles.
+ */
+export function playMenuHoverClickSound(): void {
+  if (typeof window === 'undefined') return;
+
+  const nowMs = performance.now();
+  if (nowMs - lastMenuHoverClickTime < 35) return;
+  lastMenuHoverClickTime = nowMs;
+
+  try {
+    const audio = new Audio(ASSETS.sheikahTabClick);
+    audio.volume = 0.22;
+    audio.playbackRate = 1.15;
+
+    const promise = audio.play();
+    if (promise && typeof promise.catch === 'function') {
+      promise.catch(() => {});
+    }
+  } catch {
+    // Ignore before user interaction unlocks audio
+  }
+}
+
+export function playSheikahSlateSound(): void {
+  playSheikahSlateOpenSound();
 }
 
 /**
