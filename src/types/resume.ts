@@ -26,8 +26,13 @@ export interface SkillItem {
 
 export type ProjectCategory =
   | 'Full-Stack Web'
-  | 'Cross-Platform Mobile'
+  | 'Mobile App'
   | 'AI & Systems';
+
+export interface ProjectGalleryImage {
+  src: string;
+  caption?: string;
+}
 
 export interface ProjectItem {
   id: string;
@@ -38,9 +43,11 @@ export interface ProjectItem {
   description: string;
   highlights: string[];
   technologies: string[];
-  liveUrl: string;
-  repoUrl: string;
+  liveUrl?: string;
+  repoUrl?: string;
   image: string;
+  gallery?: ProjectGalleryImage[];
+  mediaOrientation?: 'landscape' | 'portrait';
   isPlaceholder?: boolean;
 }
 

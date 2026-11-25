@@ -3,11 +3,12 @@ import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { useSound } from '../context/SoundContext';
 import { ASSETS } from '../data/defaultResume';
-import { MenuSectionId, ResumeData } from '../types/resume';
+import { MenuSectionId, ProjectGalleryImage, ResumeData } from '../types/resume';
 import { smoothScrollToId } from '../utils/smoothScroll';
 import { HerosPathSection } from './HerosPathSection';
 import { KorokNode } from './KorokNode';
 import { PortfolioTab } from './PortfolioTab';
+import { ProjectMediaPreview } from './ProjectMediaPreview';
 import { SheikahSlateFrame } from './SheikahSlateFrame';
 import { SkillTreeTab } from './SkillTreeTab';
 import { SummaryTab } from './SummaryTab';
@@ -40,11 +41,14 @@ const RELAXED_EASE = [0.22, 1, 0.36, 1] as const;
 
 interface FeaturedSlide {
   id: string;
+  projectId?: string;
   kicker: string;
   title: string;
   description: string;
   tags: string[];
   image: string;
+  gallery?: ProjectGalleryImage[];
+  mediaOrientation?: 'landscape' | 'portrait';
   ctaLabel: string;
   targetTab: MenuSectionId;
 }
@@ -130,7 +134,7 @@ export function TitleScreenMenu({
     direction: 1,
   });
   const [isSliderPaused, setIsSliderPaused] = useState(false);
-  const [slideImgErrors, setSlideImgErrors] = useState<Record<string, boolean>>({});
+  const [targetPortfolioProjectId, setTargetPortfolioProjectId] = useState<string | null>(null);
   const [isDesktop, setIsDesktop] = useState<boolean>(() =>
     typeof window !== 'undefined' ? window.innerWidth >= 1024 : true
   );
@@ -141,13 +145,13 @@ export function TitleScreenMenu({
   const slateScrollRef = useRef<HTMLDivElement | null>(null);
 
   const isExpanded = activeTab !== null;
-  // Smooth px-to-px maxWidth interpolation without colliding with Left Column on 1024-1380px screens
+  // Smooth px-to-px maxWidth interpolation with generous width for web & 3-phone showcases
   const compactMaxWidth = isDesktop
-    ? Math.max(500, Math.min(820, Math.round(viewportWidth * 0.92 - 410)))
+    ? Math.max(540, Math.min(980, Math.round(viewportWidth * 0.95 - 395)))
     : 960;
-  // Taller, more comfortable reading proportion for the expanded Sheikah Slate (centered smoothly on desktop)
-  const expandedMaxWidth = 1120;
-  const containerInnerWidth = Math.min(Math.round(viewportWidth * 0.92), 1380) - 32;
+  // Wide, spacious Sheikah Slate workspace (centered smoothly on desktop)
+  const containerInnerWidth = Math.min(Math.round(viewportWidth * 0.95), 1560) - 32;
+  const expandedMaxWidth = Math.min(1360, containerInnerWidth);
   const expandedMarginRight = isDesktop
     ? Math.max(0, Math.round((containerInnerWidth - expandedMaxWidth) / 2))
     : 0;
@@ -155,6 +159,9 @@ export function TitleScreenMenu({
   useEffect(() => {
     if (activeTab !== null) {
       setRenderedTab(activeTab);
+    }
+    if (activeTab !== 'portfolio') {
+      setTargetPortfolioProjectId(null);
     }
   }, [activeTab]);
 
@@ -186,49 +193,61 @@ export function TitleScreenMenu({
   const featuredSlides: FeaturedSlide[] = [
     {
       id: 'feat-top100',
+      projectId: data.projects[0]?.id,
       kicker: 'Featured Project · Full-Stack Web',
-      title: data.projects[0]?.title ?? '"Top 100" — Multiplayer Web Trivia Game',
+      title: data.projects[0]?.title ?? 'Top 100',
       description:
         data.projects[0]?.description ??
         'Interactive multiplayer browser trivia game with real-time leaderboards and asynchronous FastAPI room scoring.',
       tags: data.projects[0]?.technologies ?? ['React', 'TypeScript', 'Python', 'FastAPI'],
-      image: ASSETS.webappPreview,
+      image: data.projects[0]?.image ?? ASSETS.top100Menu,
+      gallery: data.projects[0]?.gallery,
+      mediaOrientation: data.projects[0]?.mediaOrientation,
       ctaLabel: 'Inspect in Portfolio',
       targetTab: 'portfolio',
     },
     {
       id: 'feat-fraudcheck',
-      kicker: 'Featured Project · Cross-Platform Mobile',
-      title: data.projects[1]?.title ?? '"Fraud Check" — Social Deduction Mobile Game',
+      projectId: data.projects[1]?.id,
+      kicker: 'Featured Project · Android Mobile',
+      title: data.projects[1]?.title ?? 'Fraud Check',
       description:
         data.projects[1]?.description ??
-        'Cross-platform English social deduction party game engineered in Flutter and Dart for Android & iOS.',
-      tags: data.projects[1]?.technologies ?? ['Flutter', 'Dart', 'Android', 'iOS'],
-      image: ASSETS.systemsPreview,
-      ctaLabel: 'Inspect in Portfolio',
-      targetTab: 'portfolio',
-    },
-    {
-      id: 'feat-family-feud',
-      kicker: 'Featured Project · Live Game Host',
-      title: data.projects[3]?.title ?? 'Family Feud Control Board',
-      description:
-        data.projects[3]?.description ??
-        'Interactive host control board and live scoreboard display for Family Feud rounds, strike tracking, and team scoring.',
-      tags: data.projects[3]?.technologies ?? ['React', 'TypeScript', 'WebSockets', 'Tailwind CSS'],
-      image: ASSETS.webappPreview,
+        'English-language multiplayer social deduction party game engineered in Flutter and Dart for Android.',
+      tags: data.projects[1]?.technologies ?? ['Flutter', 'Dart', 'Android'],
+      image: data.projects[1]?.image ?? ASSETS.fraudCheckTitle,
+      gallery: data.projects[1]?.gallery,
+      mediaOrientation: data.projects[1]?.mediaOrientation,
       ctaLabel: 'Inspect in Portfolio',
       targetTab: 'portfolio',
     },
     {
       id: 'feat-banet',
+      projectId: data.projects[4]?.id,
       kicker: 'Featured Project · Network & Systems',
-      title: data.projects[4]?.title ?? 'Internet Speed Tester (Banet)',
+      title: data.projects[4]?.title ?? 'Banet',
       description:
         data.projects[4]?.description ??
-        'Network diagnostics and bandwidth testing application measuring download/upload throughput and ping latency in real time.',
-      tags: data.projects[4]?.technologies ?? ['Python', 'Networking', 'Latency & Throughput', 'Web UI'],
-      image: ASSETS.compilerPreview,
+        'Local zero-config network monitor and speed benchmark app measuring live latency, jitter, packet loss, and historical connection quality in real time.',
+      tags: data.projects[4]?.technologies ?? ['Python', 'Networking', 'Web UI'],
+      image: data.projects[4]?.image ?? ASSETS.banetLiveHud,
+      gallery: data.projects[4]?.gallery,
+      mediaOrientation: data.projects[4]?.mediaOrientation,
+      ctaLabel: 'Inspect in Portfolio',
+      targetTab: 'portfolio',
+    },
+    {
+      id: 'feat-krillion',
+      projectId: data.projects[5]?.id,
+      kicker: 'Featured Project · Full-Stack Web',
+      title: data.projects[5]?.title ?? 'Krillion Leaderboard',
+      description:
+        data.projects[5]?.description ??
+        'Mobile-first deep-sea themed web leaderboard tracking daily Krillion trivia dives, medal standings, and player lifetime statistics.',
+      tags: data.projects[5]?.technologies ?? ['Python', 'SQL', 'Web UI', 'PythonAnywhere'],
+      image: data.projects[5]?.image ?? ASSETS.krillionBoards,
+      gallery: data.projects[5]?.gallery,
+      mediaOrientation: data.projects[5]?.mediaOrientation,
       ctaLabel: 'Inspect in Portfolio',
       targetTab: 'portfolio',
     },
@@ -303,7 +322,6 @@ export function TitleScreenMenu({
   };
 
   const currentSlide = featuredSlides[slideState.index];
-  const imgBroken = slideImgErrors[currentSlide.id];
   const displayTab = activeTab ?? renderedTab;
 
   const activeTabLabel =
@@ -461,29 +479,17 @@ export function TitleScreenMenu({
                       duration: 0.42,
                       ease: RELAXED_EASE,
                     }}
-                    style={{ transformStyle: 'preserve-3d' }}
                     className="space-y-3.5"
                   >
                     <div className="relative aspect-[16/9] w-full rounded-md overflow-hidden border border-[#4CE4FF]/30 bg-[#040A10]">
-                      {!imgBroken ? (
-                        <img
-                          src={currentSlide.image}
-                          alt={currentSlide.title}
-                          referrerPolicy="no-referrer"
-                          onError={() =>
-                            setSlideImgErrors((prev) => ({
-                              ...prev,
-                              [currentSlide.id]: true,
-                            }))
-                          }
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#0F202E] to-[#060D14] text-[#4CE4FF]/80 text-sm px-4 text-center">
-                          {currentSlide.title}
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#060F17]/65 via-transparent to-transparent" />
+                      <ProjectMediaPreview
+                        title={currentSlide.title}
+                        image={currentSlide.image}
+                        gallery={currentSlide.gallery}
+                        mediaOrientation={currentSlide.mediaOrientation}
+                        variant="featured"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#060F17]/55 via-transparent to-transparent" />
                     </div>
 
                     <div>
@@ -505,7 +511,12 @@ export function TitleScreenMenu({
                       <button
                         type="button"
                         tabIndex={isExpanded ? -1 : 0}
-                        onClick={() => onSelectSection(currentSlide.targetTab)}
+                        onClick={() => {
+                          if (currentSlide.projectId) {
+                            setTargetPortfolioProjectId(currentSlide.projectId);
+                          }
+                          onSelectSection(currentSlide.targetTab);
+                        }}
                         className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-[#061018] bg-[#4CE4FF] hover:bg-[#9AF0FF] rounded-md shadow-[0_0_14px_rgba(76,228,255,0.32)] transition-colors cursor-pointer"
                       >
                         <span>{currentSlide.ctaLabel}</span>
@@ -628,7 +639,10 @@ export function TitleScreenMenu({
                         {displayTab === 'adventure' && <SummaryTab data={data} />}
                         {displayTab === 'skills' && <SkillTreeTab skills={data.skills} />}
                         {displayTab === 'portfolio' && (
-                          <PortfolioTab projects={data.projects} />
+                          <PortfolioTab
+                            projects={data.projects}
+                            initialSelectedId={targetPortfolioProjectId}
+                          />
                         )}
                       </motion.div>
                     </AnimatePresence>
@@ -643,7 +657,7 @@ export function TitleScreenMenu({
         {/* DESKTOP (>= 1024px): Original Single-Container Expanding Sheikah Slate */}
         {/* ===================================================================== */}
         <div className="hidden lg:flex relative z-10 w-full min-h-[100dvh] flex-col justify-center">
-          <div className="relative z-10 w-[92vw] max-w-[1380px] mx-auto px-4 min-h-[100dvh] py-4 flex flex-row items-center justify-end">
+          <div className="relative z-10 w-[95vw] max-w-[1560px] mx-auto px-4 min-h-[100dvh] py-4 flex flex-row items-center justify-end">
             {/* Left Column: Releases Pointer Events Immediately When Slate Expands */}
             <div
               className={`w-[350px] absolute left-4 top-1/2 -translate-y-1/2 shrink-0 ${
@@ -737,7 +751,7 @@ export function TitleScreenMenu({
               onMouseLeave={() => setIsSliderPaused(false)}
               style={{
                 width: '100%',
-                height: isExpanded ? '92dvh' : '460px',
+                height: isExpanded ? '92dvh' : '476px',
                 maxWidth: isExpanded ? `${expandedMaxWidth}px` : `${compactMaxWidth}px`,
                 marginRight: isExpanded ? `${expandedMarginRight}px` : '0px',
                 transition:
@@ -908,32 +922,20 @@ export function TitleScreenMenu({
                           duration: 0.42,
                           ease: RELAXED_EASE,
                         }}
-                        style={{ transformStyle: 'preserve-3d' }}
                         className="h-full grid grid-cols-12 gap-5 items-stretch"
                       >
-                        <div className="col-span-6 relative h-full shrink-0 rounded-sm overflow-hidden border border-[#4CE4FF]/35 bg-[#040A10]">
-                          {!imgBroken ? (
-                            <img
-                              src={currentSlide.image}
-                              alt={currentSlide.title}
-                              referrerPolicy="no-referrer"
-                              onError={() =>
-                                setSlideImgErrors((prev) => ({
-                                  ...prev,
-                                  [currentSlide.id]: true,
-                                }))
-                              }
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#0F202E] to-[#060D14] text-[#4CE4FF]/80 text-sm px-4 text-center">
-                              {currentSlide.title}
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#060F17]/70 via-transparent to-transparent" />
+                        <div className="col-span-7 relative h-full shrink-0 rounded-sm overflow-hidden border border-[#4CE4FF]/35 bg-[#040A10]">
+                          <ProjectMediaPreview
+                            title={currentSlide.title}
+                            image={currentSlide.image}
+                            gallery={currentSlide.gallery}
+                            mediaOrientation={currentSlide.mediaOrientation}
+                            variant="featured"
+                          />
+                          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#060F17]/55 via-transparent to-transparent" />
                         </div>
 
-                        <div className="col-span-6 flex-1 min-h-0 flex flex-col justify-between py-0.5 overflow-hidden">
+                        <div className="col-span-5 flex-1 min-h-0 flex flex-col justify-between py-0.5 overflow-hidden">
                           <div className="min-h-0">
                             <div className="text-xs font-medium text-[#4CE4FF]">
                               {currentSlide.kicker}
@@ -954,6 +956,9 @@ export function TitleScreenMenu({
                               type="button"
                               tabIndex={isExpanded ? -1 : 0}
                               onClick={() => {
+                                if (currentSlide.projectId) {
+                                  setTargetPortfolioProjectId(currentSlide.projectId);
+                                }
                                 onSelectSection(currentSlide.targetTab);
                               }}
                               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-[#061018] bg-[#4CE4FF] hover:bg-[#9AF0FF] rounded-sm shadow-[0_0_14px_rgba(76,228,255,0.35)] transition-colors whitespace-nowrap cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F3E3B4]"
@@ -998,7 +1003,10 @@ export function TitleScreenMenu({
                             <SkillTreeTab skills={data.skills} />
                           )}
                           {displayTab === 'portfolio' && (
-                            <PortfolioTab projects={data.projects} />
+                            <PortfolioTab
+                              projects={data.projects}
+                              initialSelectedId={targetPortfolioProjectId}
+                            />
                           )}
                         </motion.div>
                       </AnimatePresence>
